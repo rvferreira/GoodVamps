@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from django.template import loader, RequestContext
 from django.http import HttpResponse
 
 # Create your views here.
-def home(request):
-    html = "<html><body>Good Vampires Home</body></html>"
-    return HttpResponse(html)
+def index(request):
+
+	template = loader.get_template('base.html')
+	context = RequestContext(request, {
+		'page_title': 'Home',
+	})
+
+	return HttpResponse(template.render(context))
