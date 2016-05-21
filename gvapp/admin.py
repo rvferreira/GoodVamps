@@ -1,4 +1,5 @@
 from django.contrib import admin
+from models import Doador, Organizador, Campanha, DoadorCampanha
 
 # Register your models here.
 admin.site.register(Doador)
