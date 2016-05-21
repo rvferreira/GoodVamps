@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    function getContent(url) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function(data) {
+                $('#content-wrapper').html(data);
+            }
+        });
+    }
+</script>
+
+<header>
+    <div class="navbar-fixed">
+        <nav class="light-blue">
+            <div class="nav-wrapper container">
+                <a href="/" class="brand-logo">Doa.la</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/learning">Campanhas</a></li>
+                    <li><a href="/evaluate">Quem pode doar?</a></li>
+                    <li><a href="/team">Quem somos?</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile-demo">
+                    <li><a href="/learning">Campanhas</a></li>
+                    <li><a href="/evaluate">Quem pode doar?</a></li>
+                    <li><a href="/team">Quem Somos?</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
