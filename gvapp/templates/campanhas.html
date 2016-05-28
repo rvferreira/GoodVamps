@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for campanha in campanhas %}
+    {% include 'campanha_in_list.html' with c=campanha %}
+    <br>
+    <br>
+{% endfor %}
+
+{% endblock %}

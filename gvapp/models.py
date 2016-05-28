@@ -21,6 +21,9 @@ class Organizador(models.Model):
 	nome = models.CharField(max_length = 30)
 	localizacao = models.CharField(max_length = 20)
 	email = models.EmailField(max_length = 50, unique = True)
+	
+	def __unicode__(self):
+		return "Organizador: " + self.nome
 
 class Campanha(models.Model):
 	opcoes_sangue = (('O-', 'O-'), ('O+', 'O+'), ('A-', 'A-'), ('A+', 'A+'), ('B-', 'B-'), ('B+', 'B+'), ('AB-', 'AB-'), ('AB+', 'AB+'))
@@ -33,6 +36,9 @@ class Campanha(models.Model):
 	organizador = models.ForeignKey('Organizador', on_delete = models.CASCADE)
 	tipo_prioritario = models.CharField(max_length = 3, choices = opcoes_sangue, blank = True)
 	doadores = models.ManyToManyField(Doador, through = 'DoadorCampanha')
+	
+	def __unicode__(self):
+		return "Campanha: " + self.nome
 
 class DoadorCampanha(models.Model):
 	doador = models.ForeignKey('Doador', on_delete = models.CASCADE)
