@@ -1,11 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script>
+    initializations = function(){
+        $('.datepicker').pickadate({
+            selectMonths: true, // Creates a dropdown to control month
+            selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+        
+        $('.campanha-in-list').click(function(e){
+            var campanha_cod = e.target.id.replace('campanha', '');
+            $.ajax({
+                url: "{{full_url}}details/?cod="+campanha_cod,
+            }).done(function(data){
+                $('#campanha-detail').html(data);
+            });
+        });
+    }
+</script>
 
-{% for campanha in campanhas %}
-    {% include 'campanha_in_list.html' with c=campanha %}
-    <br>
-    <br>
-{% endfor %}
+<div class="section no-pad-bot" id="campanhas-banner">
+    <div class="container">
+        <h3 class="header center orange-text">
+            Buscador de campanhas
+        </h3>
+        <div class="row center">
+            <div class="col s7">
+                    <div class="container">
+                        <form action="submit">
+                            <div class="input-field">
+                                <input id="local" type="text" class="validate">
+                                <label class="active" for="local">Local</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="data" type="date" class="datepicker">
+                                <label class="active" for="date">Data</label>
+                            </div>
+                        </form>
+                    </div>
+                
+            </div>
+            <div class="col s5">
+                <button class="btn waves-effect waves-light" type="submit" name="action" style="top:5em">Filtrar!
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+<!--         <div class="divider"></div> -->
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+    <div class="row">
+        <div class="col s5 collection" id="campanha-list" style="overflow:auto;height:300px">
+            {% for campanha in campanhas %}
+                {% include 'campanha_in_list.html' with c=campanha %}
+            {% endfor %} 
+        </div>
+        <div class="col s7" id="campanha-detail">
+            <div class="container">
+                Clique em uma das campanhas ao lado para conferir detalhes! =)
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
 
 {% endblock %}

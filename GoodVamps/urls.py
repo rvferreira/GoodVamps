@@ -18,9 +18,14 @@ from django.contrib import admin
 
 from django.views.generic import RedirectView, TemplateView
 
+#temporary: for serving static files
+#TODO: remove static url serving in production
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     url(r'^team/', TemplateView.as_view(template_name='team.html'), name="team"),
     url(r'^who/', TemplateView.as_view(template_name='who.html'), name="who"),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('gvapp.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

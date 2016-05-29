@@ -1,0 +1,24 @@
+<div class="container">
+    <h5 class="header center blue-text">
+        {{campanha}}        
+    </h5>
+
+    <p class="center-align">
+        <span class="orange-text text-darken-2">Local: </span>{{ campanha.localizacao }}
+        <br>
+        <br>
+        <span class="orange-text text-darken-2">Inicio:  </span>{{ campanha.inicio }} <br>
+        <span class="orange-text text-darken-2">Fim:  </span>{{ campanha.fim }}
+        <br><br>
+        
+        {% if campanha.tipo_prioritario %}
+        Estamos procurando, principalmente, por sangue {{ campanha.tipo_prioritario }}! =)
+        <br><br>
+        {% endif %}
+        
+        <span class="orange-text text-darken-2">Organizador:  </span>{{ campanha.organizador.nome  }} <br>  
+        <span class="orange-text text-darken-2">Contato:  </span>{{ campanha.organizador.telefone }} <br>
+        <span class="orange-text text-darken-2">Página:  </span>{{ campanha.organizador.site  }} <br>  
+    </p>
+    
+</div>
