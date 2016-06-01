@@ -1,9 +1,73 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
+<div class="container">
+    <div class="section">
+        <div class="row">
+            <h2 class="center {{color3_text}} header">Requerimentos para doação</h2>
+        </div>
 
-<h1>Quem pode doar?</h1>
+        <!--   Icon Section   -->
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center {{color2_text}}"><i class="large material-icons">schedule</i></h2>
+                    <h5 class="center">Existe hora certa para doar!</h5>
 
-Quem nao for morrer, pode.
+                    <p class="light">Somente faça a doação se você estiver entre 16 e 70 anos de idade ou com a pré-aprovação de um médico especialista. Doações são muito bem vindas quando não oferecem riscos para o doador! </p>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center {{color2_text}}"><i class="large material-icons">shopping_cart</i></h2>
+                    <h5 class="center">Alimentação em dia!</h5>
+
+                    <p class="light">Esse não é um exame de sangue e a coleta será bem maior. Doadores em jejum NÃO são bem vindos. Queremos você saudável e cheio de energia durante a coleta. Também existe uma restrição de no minímo 50kg para o doador.</p>
+                </div>
+            </div>
+
+            <div class="col s12 m4">
+                <div class="icon-block">
+                    <h2 class="center {{color2_text}}"><i class="large material-icons">loyalty</i></h2>
+                    <h5 class="center">Esteja saudável!</h5>
+
+                    <p class="light">O receptor do seu sangue pode já ter problemas demais pra ter que se preocupar com outras infecções, não é mesmo? Então tenha certeza de estar com a saúde em dia antes de doar!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="section">
+    <p>
+        Além desses critérios básicos, há alguns impedimentos que podem ser aplicados, temporariamente ou definitivamente:
+        <br><br><span class="{{color2_text}}">Impedimentos definitivos</span>:
+        <ul>
+            <li> - Hepatite após os 10 anos de idade.</li>
+            <li> - Evidência clínica das seguintes DST’s: Hepatites B e C, HIV, HTLV 1 e 2 e Doença de Chagas.</li>
+            <li> - Uso de drogas ilícitas injetáveis.</li>
+            <li> - Malária.</li>
+        </ul>
+
+        <br><span class="{{color2_text}}">Impedimentos temporários</span>:
+        <ul>
+            <li> - Gripe ou resfriado.</li>
+            <li> - Gravidez.</li>
+            <li> - Pós parto (90 dias para parto normal e 180 para cesariana).</li>
+            <li> - Uso de certos medicamentos.</li>
+            <li> - Comportamentos de risco para DST’s. (Estamos lutando para melhorar essa pauta!)</li>
+            <li> - Ingestão de bebida alcoólica 24 horas antes da doação.</li>
+        </ul>
+
+        <br><span class="{{color2_text}}">Impedimentos pós cirúrgicos</span>:
+        <ul>
+            <li> - Extração dentária: 72 horas.</li>
+            <li> - Transfusão de sangue: 1 ano.</li>
+            <li> - Tatuagem: 1 ano.</li>
+            <li> - Vacinação: varia de acordo com a vacina.</li>
+            <li> - Apendicite, hérnia, amigdalite ou varizes: 3 meses.</li>
+            <li> - Colecistectomia, histerectomia, nefractomia, redução de fraturas, politraumatismos sem sequelas graves, tireoidectomia, colectomia: 6 meses.</li>
+        </ul>
+    </p>
+</div>
+</div>
 
 {% endblock %}

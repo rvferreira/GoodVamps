@@ -1,11 +1,11 @@
 {% load staticfiles %}
+{% with color1="red darken-2" color2="orange darken-2" color3="red darken-4" color2_text="red-text text-darken-2" color3_text="orange-text text-darken-2" %}  
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" /> 
-    {% if page_title %}
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" /> {% if page_title %}
     <title>Doa.la | {{ page_title }}</title>
     {% else %}
     <title>Doa.la</title>
@@ -20,8 +20,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    
-    <script type="text/javascript"  src="{% static 'js/helpers.js' %}" ></script>
+
+    <script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
 
     <script>
         $(document).ready(function() {
@@ -48,9 +48,12 @@
     {% include 'navbar.html' %}
 
     <main style="flex: 1 0 auto;">
-            {% block content %} {% endblock %}
+        {% block content %} {% endblock %}
     </main>
+    
+    {% include 'footer.html' %}
 
 </body>
 
 </html>
+{% endwith %}  
