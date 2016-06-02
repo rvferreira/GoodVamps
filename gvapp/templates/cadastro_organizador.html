@@ -4,6 +4,37 @@
     initializations = funtion() {}
 </script>
 
+<style>
+    label {
+        color: #fafafa !important;
+    }
+    label.active {
+        color: #fafafa !important;
+    }
+    /* label focus color */
+    .input-field input[type=text]:focus + label {
+        color: #fafafa !important;
+    }
+    .input-field input {
+        border-bottom: 1px #fafafa !important;
+        box-shadow: 0 1px 0 0 #fafafa !important;
+    }
+    /* label underline focus color */
+    .input-field input:focus {
+        border-bottom: 1px #fafafa !important;
+        box-shadow: 0 1px 0 0 #fafafa !important;
+    }
+    /* valid color */
+    .input-field input.valid {
+        border-bottom: 1px solid #fafafa !important;
+        box-shadow: 0 1px 0 0 #fafafa !important;
+    }
+    /* icon prefix focus color */
+    .input-field .prefix.active {
+        color: #fafafa !important;
+    }
+</style>
+
 <div class="section">
     <h3 class="center-align condensed thin {{color2_text}}">Seja um organizador. Cadastre-se!</h3>
 </div>
@@ -27,8 +58,9 @@
                             <input value="" id="first_name2" type="text" class="validate">
                             <label for="first_name2">Telefone</label>
                         </div>
-                        <div class="divider"></div>
-                        <span class="card-title">Informações da organização</span>
+                        <!--div class="divider"></div-->
+                        <br><br>
+                        <p class="card-title">Informações da organização</p>
                         <div class="input-field col s12">
                             <input value="" id="first_name2" type="text" class="validate">
                             <label for="first_name2">Nome da Organização</label>
