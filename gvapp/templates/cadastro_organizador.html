@@ -13,7 +13,8 @@
         <div class="col s6 offset-s3">
             <div class="card {{color3}}">
                 <div class="card-content white-text">
-                    <form>
+                    <form action="" method="post">
+                        {% csrf_token %}
                         <span class="card-title">Informações do responsável</span>
                         <div class="input-field col s12">
                             <input value="" id="first_name2" type="text" class="validate">
