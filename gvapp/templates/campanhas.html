@@ -1,4 +1,13 @@
 {% extends "base.html" %} {% block content %}
+<style>
+  #map {
+    width: 500px;
+    height: 400px;
+  }
+</style>
+
+
+
 <script>
   initializations = function() {
     $('.datepicker').pickadate({
@@ -65,9 +74,56 @@
 
 <div class="section">
   <div class="container">
-    <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC4Q1cyFiS9oKbbpYtanx5NTa--rsvN-Uw
-    &q=Space+Needle,Seattle+WA" allowfullscreen>
-</iframe>
+    <!-- <iframe
+  width="600"
+  height="450"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC4Q1cyFiS9oKbbpYtanx5NTa--rsvN-Uw
+    &q=UNIMED,Sao+Carlos+SP" allowfullscreen>
+</iframe>-->
+
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var myLatLng = {
+          lat: -25.363,
+          lng: 131.044
+        };
+        var myOtherLatLng = {
+          lat: -25.363,
+          lng: 132.044
+        }
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+          center: myLatLng,
+          zoom: 8
+        });
+        setMarkers(map);
+      }
+      
+      var locations = [
+        ["Hello1", -25.363, 131.044],
+        ["Hello2", -25.363, 132.044]
+      ];
+
+      
+      function setMarkers(map) {
+        for (var i = 0; i < locations.length; i++) {
+          var location = locations[i];
+          var marker = new google.maps.Marker({
+            position: {
+              lat: location[1],
+              lng: location[2]
+            },
+            map: map,
+            animation: google.maps.Animation.DROP,
+            title: location[0],
+          });
+          marker.setMap
+        }
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
 
   </div>
 </div>
