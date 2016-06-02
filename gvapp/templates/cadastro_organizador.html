@@ -1,1 +1,59 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+
+<script>
+    initializations = funtion() {}
+</script>
+
+<div class="section">
+    <h3 class="center-align condensed thin {{color2_text}}">Seja um organizador. Cadastre-se!</h3>
+</div>
+
+<div class="section">
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <div class="card {{color3}}">
+                <div class="card-content white-text">
+                    <form>
+                        <span class="card-title">Informações do responsável</span>
+                        <div class="input-field col s12">
+                            <input value="" id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Nome Completo</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input value="" id="first_name2" type="text" class="validate">
+                            <label for="first_name2">E-mail</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input value="" id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Telefone</label>
+                        </div>
+                        <div class="divider"></div>
+                        <span class="card-title">Informações da organização</span>
+                        <div class="input-field col s12">
+                            <input value="" id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Nome da Organização</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input value="" id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Site</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input value="" id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Localização</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea" length="120"></textarea>
+                            <label for="textarea1">Sobre a Organização</label>
+                        </div>
+                        <div class="center-align">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Cadastrar!</button>
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %}
