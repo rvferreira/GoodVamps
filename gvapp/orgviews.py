@@ -7,9 +7,19 @@ from django.core.context_processors import csrf
 @csrf_protect
 def cadastro_organizador(request):
     if request.method == 'POST':
-        print "tenta cadastro"
-   
-        return HttpResponse("ok")
+        
+        uname = request.POST.get('uname', '')
+        
+        if uname:
+            template = loader.get_template('cadastro_organizador_2.html')
+            context = {
+                'page_title': 'Cadastro Organizador',
+                'uname': uname,
+                'password': request.POST.get('password')
+            }
+            context.update(csrf(request))
+        
+            return HttpResponse(template.render(context))
         
     else:
     
@@ -19,4 +29,4 @@ def cadastro_organizador(request):
         }
         context.update(csrf(request))
     
-    return HttpResponse(template.render(context))
+        return HttpResponse(template.render(context))

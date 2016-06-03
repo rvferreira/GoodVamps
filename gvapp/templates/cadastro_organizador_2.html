@@ -1,0 +1,80 @@
+<script>
+    initializations = funtion() {
+        
+    }
+</script>
+
+<div class="section">
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <h3 class="center-align condensed thin {{color2_text}}">Só faltam mais alguns detalhes para concluír-mos o seu cadastro!</h3>
+        </div>
+    </div>
+</div>
+
+<form id="org-cadastro-1" action="" method="post">
+
+    <div class="section">
+        <div class="row">
+            <div class="col s6 offset-s3">
+
+                <div class="card">
+                    <div class="card-content">
+
+                        {% csrf_token %}
+
+                        <span class="center bold card-title {{color3_text}}">Informações do responsável</span>
+                        <div class="input-field col s12">
+                            <input id="nome" type="text" class="validate">
+                            <label for="nome">Nome Completo</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="email" type="email" class="validate">
+                            <label for="email">E-mail</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="telefone" type="text" class="validate">
+                            <label for="telefone">Telefone</label>
+                        </div>
+                        <div class="col s12">
+                            &nbsp;
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="card">
+                    <div class="card-content">
+                        <span class="center card-title {{color3_text}}">Informações da organização</span>
+                        <div class="input-field col s12">
+                            <input id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Nome da Organização</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Site</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="first_name2" type="text" class="validate">
+                            <label for="first_name2">Localização</label>
+                        </div>
+
+                        <div class="col s12">
+                            &nbsp;
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="center-align">
+            <button id="submit-btn" class="btn waves-effect waves-light {{color1}}" type="submit" name="action">Cadastrar!</button>
+        </div>
+    </div>
+
+</form>
