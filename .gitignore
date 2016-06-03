@@ -1,3 +1,4 @@
 gvenv/
+static/
 db.sqlite3
 *.pyc
