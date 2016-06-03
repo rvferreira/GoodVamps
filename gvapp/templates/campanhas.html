@@ -82,7 +82,7 @@
     &q=UNIMED,Sao+Carlos+SP" allowfullscreen>
 </iframe>-->
 
-    <div id="map"></div>
+    
     <!--<script>
        function initMap() {
         var myLatLng = {
@@ -125,9 +125,10 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>-->
      <div id="floating-panel">
-      <input id="address" type="textbox" value="Sydney, NSW">
-      <input id="submit" type="button" value="Geocode">
+      <input id="address" type="textbox" value="ICMC São Carlos">
+      <input id="submit" type="button" value="Buscar">
     </div>
+    <div id="map"></div>
     <script>
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -153,7 +154,8 @@
             resultsMap.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
               map: resultsMap,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
+              animation: google.maps.Animation.DROP
             });
           } else {
             alert('Geocode was not successful for the following reason: ' + status);
