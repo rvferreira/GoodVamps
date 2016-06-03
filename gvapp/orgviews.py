@@ -1,13 +1,15 @@
 from django.template import loader, RequestContext
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_protect
+from django.core.context_processors import csrf
+
 
 @csrf_protect
 def cadastro_organizador(request):
     if request.method == 'POST':
         print "tenta cadastro"
    
-        return HttpResponse(context_instance=RequestContext(request))
+        return HttpResponse("ok")
         
     else:
     
@@ -15,5 +17,6 @@ def cadastro_organizador(request):
         context = {
             'page_title': 'Cadastro Organizador'
         }
+        context.update(csrf(request))
     
     return HttpResponse(template.render(context))
