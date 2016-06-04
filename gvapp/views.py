@@ -5,7 +5,7 @@ from orgviews import cadastro_organizador
 from models import Campanha
 
 def index(request):
-	template = loader.get_template('base.html')
+	template = loader.get_template('index.html')
 	context = RequestContext(request, {
 		'page_title': 'Home',
 	})
