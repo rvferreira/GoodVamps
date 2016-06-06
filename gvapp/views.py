@@ -1,6 +1,7 @@
 from django.template import loader, RequestContext
 from django.http import HttpResponse
 from orgviews import cadastro_organizador
+from doaviews import cadastro_doador
 
 from models import Campanha
 
