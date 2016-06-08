@@ -1,7 +1,33 @@
-<script>
-    initializations = funtion() {
-        
+<style>
+    .card .card-title {
+        color: #f57c00 !important;
     }
+</style>
+
+<script>
+    $(document).ready(function(){
+        $("#org-cadastro-2").submit(function(e) {
+            e.preventDefault();
+            var data = $("#org-cadastro-2").serializeArray();
+            data.push({
+                name: "step",
+                value: "2"
+            })
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRFToken": $.cookie("csrftoken")
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/organizador/cadastro/",
+                data: data, // serializes the form's elements.
+                success: function(data) {
+                    $("#content-block").html(data);
+                }
+            });
+        });
+    });
 </script>
 
 <div class="section">
@@ -12,7 +38,7 @@
     </div>
 </div>
 
-<form id="org-cadastro-1" action="" method="post">
+<form id="org-cadastro-2" action="" method="post">
 
     <div class="section">
         <div class="row">
@@ -23,7 +49,7 @@
 
                         {% csrf_token %}
 
-                        <span class="center bold card-title {{color3_text}}">Informações do responsável</span>
+                        <span class="center card-title">Informações do responsável</span>
                         <div class="input-field col s12">
                             <input id="nome" type="text" class="validate">
                             <label for="nome">Nome Completo</label>
@@ -73,7 +99,7 @@
 
     <div class="section">
         <div class="center-align">
-            <button id="submit-btn" class="btn waves-effect waves-light {{color1}}" type="submit" name="action">Cadastrar!</button>
+            <button class="btn waves-effect waves-light {{ color3 }}" type="submit" name="action">Cadastrar!</button>
         </div>
     </div>
 

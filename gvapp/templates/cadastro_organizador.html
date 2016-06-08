@@ -3,18 +3,20 @@
 <script>
     initializations = function() {
         $("#org-cadastro-1").submit(function(e){
+            e.preventDefault();
+            var data = $("#org-cadastro-1").serializeArray();
+            data.push({name: "step", value: "1"})
             $.ajaxSetup({
-                headers: { "X-CSRFToken": getCookie("csrftoken") }
+                headers: { "X-CSRFToken": $.cookie("csrftoken") }
             });
             $.ajax({
                 type: "POST",
                 url: "/organizador/cadastro/",
-                data: $("#idForm").serialize(), // serializes the form's elements.
+                data: data, // serializes the form's elements.
                 success: function(data){
                     $("#content-block").html(data);
                 }
             });
-            e.preventDefault();
         });
         
         $("#org-cadastro-1").validate({
