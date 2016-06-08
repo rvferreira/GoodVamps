@@ -1,7 +1,7 @@
 from django.template import loader, RequestContext
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_protect
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 
 
 @csrf_protect
