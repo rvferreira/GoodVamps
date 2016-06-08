@@ -1,6 +1,7 @@
 from django.template import loader, RequestContext
 from django.http import HttpResponse
 from orgviews import cadastro_organizador
+from datetime import datetime
 
 from models import Campanha
 
@@ -12,8 +13,18 @@ def index(request):
 
 	return HttpResponse(template.render(context))
 
-def campanhas(request):
-	all_entrys = Campanha.objects.all()
+def campanhas(request):	
+	local = request.GET.get('local', '');
+	data = request.GET.get('data', '');
+	
+	all_entrys = Campanha.objects.all().filter(fim__gte=datetime.today())
+	
+	if local:
+		all_entrys = all_entrys.filter(localizacao__icontains=local)
+		
+	if data:
+		all_entrys = all_entrys.filter(inicio__lte=datetime.strptime(data, "%d %B, %Y"))
+		all_entrys = all_entrys.filter(fim__gte=datetime.strptime(data, "%d %B, %Y"))
 	
 	template = loader.get_template('campanhas.html')
 	context = RequestContext(request, {

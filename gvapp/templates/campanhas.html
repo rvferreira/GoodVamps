@@ -11,9 +11,18 @@
         $('.campanha-in-list').click(function(e){
             var campanha_cod = e.target.id.replace('campanha', '');
             $.ajax({
-                url: "{{full_url}}details/?cod="+campanha_cod,
+                url: "/campanhas/details/?cod="+campanha_cod,
             }).done(function(data){
                 $('#campanha-detail').html(data);
+            });
+        });
+        
+        $("#filtro-campanhas").submit(function(e) {
+            var data = $("#filtro-campanhas").serializeArray();
+            $.ajax({
+                type: "GET",
+                url: "/campanhas/",
+                data: data,
             });
         });
     }
@@ -24,29 +33,30 @@
         <h3 class="header center {{ color3_text }}">
             Buscador de campanhas
         </h3>
-        <div class="row center">
-            <div class="col s7">
+        <form id="filtro-campanhas" action="submit">
+            <div class="row center">
+                <div class="col s7">
                     <div class="container">
-                        <form action="submit">
+
                             <div class="input-field">
-                                <input id="local" type="text" class="validate">
-                                <label class="active" for="local">Local</label>
+                                <input id="local" name="local" type="text" class="validate">
+                                <label class="active" for="local">Cidade</label>
                             </div>
                             <div class="input-field">
-                                <input id="data" type="date" class="datepicker">
+                                <input id="data" name="data" type="date" class="datepicker">
                                 <label class="active" for="date">Data</label>
                             </div>
-                        </form>
+
                     </div>
-                
+
+                </div>
+                <div class="col s5">
+                    <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action" style="top:5em">Filtrar!
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
             </div>
-            <div class="col s5">
-                <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action" style="top:5em">Filtrar!
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </div>
-<!--         <div class="divider"></div> -->
+        </form>
     </div>
 </div>
 
@@ -59,7 +69,10 @@
             {% endfor %} 
         </div>
         <div class="col s7" id="campanha-detail">
-            <div class="container">
+            <div class="container center-align">
+                <br>
+                <br>
+                <br>
                 Clique em uma das campanhas ao lado para conferir detalhes! =)
             </div>
         </div>
