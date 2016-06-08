@@ -1,92 +1,116 @@
 {% extends "base.html" %} {% block content %}
 
 <script>
-    initializations = funtion() {}
+    initializations = function() {
+        $("#org-cadastro-1").submit(function(e){
+            e.preventDefault();
+            var data = $("#org-cadastro-1").serializeArray();
+            data.push({name: "step", value: "1"})
+            $.ajaxSetup({
+                headers: { "X-CSRFToken": $.cookie("csrftoken") }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/organizador/cadastro/",
+                data: data, // serializes the form's elements.
+                success: function(data){
+                    $("#content-block").html(data);
+                }
+            });
+        });
+        
+        $("#org-cadastro-1").validate({
+            rules: {
+                uname: {
+                    required: true,
+                    minlength: 5
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                cpassword: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#password"
+                }
+            },
+            //For custom messages
+            messages: {
+                uname: {
+                    required: "Enter a username",
+                    minlength: "Enter at least 5 characters"
+                },
+            },
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    }
 </script>
 
 <style>
-    label {
-        color: #fafafa !important;
-    }
-    label.active {
-        color: #fafafa !important;
-    }
-    /* label focus color */
-    .input-field input[type=text]:focus + label {
-        color: #fafafa !important;
-    }
-    .input-field input {
-        border-bottom: 1px #fafafa !important;
-        box-shadow: 0 1px 0 0 #fafafa !important;
-    }
-    /* label underline focus color */
-    .input-field input:focus {
-        border-bottom: 1px #fafafa !important;
-        box-shadow: 0 1px 0 0 #fafafa !important;
-    }
-    /* valid color */
-    .input-field input.valid {
-        border-bottom: 1px solid #fafafa !important;
-        box-shadow: 0 1px 0 0 #fafafa !important;
-    }
-    /* icon prefix focus color */
-    .input-field .prefix.active {
-        color: #fafafa !important;
+    .error {
+        margin: 0 0 15px 0;
+        font-size: small;
+        color: #D32F2F;
     }
 </style>
 
 <div class="section">
-    <h3 class="center-align condensed thin {{color2_text}}">Seja um organizador. Cadastre-se!</h3>
-</div>
-
-<div class="section">
     <div class="row">
         <div class="col s6 offset-s3">
-            <div class="card {{color3}}">
-                <div class="card-content white-text">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <span class="card-title">Informações do responsável</span>
-                        <div class="input-field col s12">
-                            <input value="" id="first_name2" type="text" class="validate">
-                            <label for="first_name2">Nome Completo</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input value="" id="first_name2" type="text" class="validate">
-                            <label for="first_name2">E-mail</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input value="" id="first_name2" type="text" class="validate">
-                            <label for="first_name2">Telefone</label>
-                        </div>
-                        <!--div class="divider"></div-->
-                        <br><br>
-                        <p class="card-title">Informações da organização</p>
-                        <div class="input-field col s12">
-                            <input value="" id="first_name2" type="text" class="validate">
-                            <label for="first_name2">Nome da Organização</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input value="" id="first_name2" type="text" class="validate">
-                            <label for="first_name2">Site</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input value="" id="first_name2" type="text" class="validate">
-                            <label for="first_name2">Localização</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <textarea id="textarea1" class="materialize-textarea" length="120"></textarea>
-                            <label for="textarea1">Sobre a Organização</label>
-                        </div>
-                        <div class="center-align">
-                            <button class="btn waves-effect waves-light" type="submit" name="action">Cadastrar!</button>
-                        </div>
-                </div>
-                </form>
-            </div>
+            <h3 class="center-align condensed thin {{color2_text}}">Seja bem vindo à equipe!</h3>
         </div>
     </div>
 </div>
-</div>
+
+<form id="org-cadastro-1" class="formValidate" action="" method="post">
+
+    <div class="section">
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <div class="card">
+                    <div class="card-content">
+                        {% csrf_token %}
+
+                        <span class="center bold card-title {{color3_text}}">Informações de Login</span>
+                        <div class="input-field col s12">
+                            <input id="uname" name="uname" type="text" class="validate">
+                            <label for="uname">Nome de Usuário</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="password" name="password" type="password" class="validate">
+                            <label for="password">Senha</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="cpassword" name="cpassword" type="password" class="validate">
+                            <label for="cpassword">Confirme a Senha</label>
+                        </div>
+                        <div class="col s12">
+                            &nbsp;
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="center-align">
+            <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action">Continuar!
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </div>
+
+</form>
 
 {% endblock %}

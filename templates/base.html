@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{% with color1="red darken-2" color2="orange darken-2" color3="red darken-4" color2_text="red-text text-darken-2" color3_text="red-text text-darken-2" %}  
+{% with color1="red darken-2" color2="orange darken-2" color3="red darken-4" color1_text="red-text text-darken-2" color2_text="red-text text-darken-2" color3_text="orange-text text-darken-2" %}  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,14 +18,19 @@
 
     <!-- JavaScript Frameworks-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
     <script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
 
     <script>
         $(document).ready(function() {
             $('.button-collapse').sideNav();
+            $("#signup").click(function(){
+                window.location.href='/organizador/cadastro';
+            });
             initializations();
         });
     </script>
@@ -47,7 +52,7 @@
 
     {% include 'navbar.html' %}
 
-    <main style="flex: 1 0 auto;">
+    <main id="content-block" style="flex: 1 0 auto;">
         {% block content %} {% endblock %}
     </main>
     
