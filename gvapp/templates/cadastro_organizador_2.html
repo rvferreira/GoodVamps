@@ -23,7 +23,10 @@
                 url: "/organizador/cadastro/",
                 data: data, // serializes the form's elements.
                 success: function(data) {
-                    $("#content-block").html(data);
+                    $("#content-block").fadeOut(function(){
+                        $(this).html(data);
+                        $(this).fadeIn();
+                    });
                 }
             });
         });
