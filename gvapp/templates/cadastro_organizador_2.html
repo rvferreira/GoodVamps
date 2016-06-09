@@ -2,6 +2,12 @@
     .card .card-title {
         color: #f57c00 !important;
     }
+    
+    .error {
+        margin: 0 0 15px 0;
+        font-size: small;
+        color: #D32F2F;
+    }
 </style>
 
 <script>
@@ -26,6 +32,10 @@
                     "X-CSRFToken": $.cookie("csrftoken")
                 }
             });
+            
+            if ($("#org-cadastro-2").valid()) {
+                
+            }
             $.ajax({
                 type: "POST",
                 url: "/organizador/cadastro/",
@@ -37,6 +47,35 @@
                     });
                 }
             });
+        });
+        
+        $("#org-cadastro-2").validate({
+            rules: {
+                nome: {
+                    required: true,
+                    minlength: 5
+                },
+                responsavel: {
+                    required: true,
+                    minlength: 5
+                },
+            },
+            //For custom messages
+            messages: {
+                nome: {
+                    required: "Campo requerido!",
+                    minlength: "O tamanho mínimo pra esse campo é 5!"
+                },
+            },
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
         });
     });
 </script>

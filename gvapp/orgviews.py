@@ -39,8 +39,10 @@ def cadastro_organizador(request):
             responsavel = request.POST.get('responsavel')
             localizacao = request.POST.get('endereco')
             email = request.POST.get('email')
-
-            print ">>>>>>>", login, senha, site, telefone, nome, responsavel, localizacao, email
+            
+            new_entry = Organizador(login=login, senha=senha, site=site, telefone=telefone,
+                                    nome=nome, responsavel=responsavel, localizacao=localizacao, email=email)
+            new_entry.save()
             
             return HttpResponse("Concluido!")
         

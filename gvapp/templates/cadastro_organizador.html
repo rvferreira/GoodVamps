@@ -16,6 +16,7 @@
                     url: "/organizador/cadastro/",
                     data: data, // serializes the form's elements.
                     success: function(data){
+                        console.log(data);
                         if (data['error']) {
                             Materialize.toast(data['error'], 2000);
                         }
@@ -49,8 +50,8 @@
             //For custom messages
             messages: {
                 uname: {
-                    required: "Enter a username",
-                    minlength: "Enter at least 5 characters"
+                    required: "Campo requerido!",
+                    minlength: "O tamanho mínimo pra esse campo é 5!"
                 },
             },
             errorElement: 'div',

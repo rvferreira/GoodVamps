@@ -21,7 +21,7 @@ class Organizador(models.Model):
 	nome = models.CharField(max_length = 30)
 	responsavel = models.CharField(max_length = 50)
 	localizacao = models.CharField(max_length = 20)
-	email = models.EmailField(max_length = 50, unique = True)
+	email = models.EmailField(max_length = 50)
 	
 	def __unicode__(self):
 		return "Organizador: " + self.nome
