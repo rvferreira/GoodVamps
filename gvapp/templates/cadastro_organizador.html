@@ -9,17 +9,25 @@
             $.ajaxSetup({
                 headers: { "X-CSRFToken": $.cookie("csrftoken") }
             });
-            $.ajax({
-                type: "POST",
-                url: "/organizador/cadastro/",
-                data: data, // serializes the form's elements.
-                success: function(data){
-                    $("#content-block").fadeOut(function(){
-                        $(this).html(data);
-                        $(this).fadeIn();
-                    });
-                }
-            });
+            
+            if ($("#org-cadastro-1").valid()){
+                $.ajax({
+                    type: "POST",
+                    url: "/organizador/cadastro/",
+                    data: data, // serializes the form's elements.
+                    success: function(data){
+                        if (data['error']) {
+                            Materialize.toast(data['error'], 2000);
+                        }
+                        else{
+                            $("#content-block").fadeOut(function(){
+                                $(this).html(data);
+                                $(this).fadeIn();
+                            });
+                        }
+                    }
+                });
+            }
         });
         
         $("#org-cadastro-1").validate({
