@@ -16,7 +16,6 @@
                     url: "/organizador/cadastro/",
                     data: data, // serializes the form's elements.
                     success: function(data){
-                        console.log(data);
                         if (data['error']) {
                             Materialize.toast(data['error'], 2000);
                         }

@@ -1,11 +1,13 @@
 from django.template import loader, RequestContext
 from django.http import HttpResponse
-from orgviews import cadastro_organizador
+from orgviews import cadastro_organizador, login_organizador, logout_organizador
 from datetime import datetime
 
 from models import Campanha
 
 def index(request):
+	if request.session:
+		print request.session["user"]
 	template = loader.get_template('index.html')
 	context = RequestContext(request, {
 		'page_title': 'Home',
