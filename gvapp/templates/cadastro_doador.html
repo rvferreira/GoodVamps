@@ -6,126 +6,184 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
 <!---->
 
-<script>
-    initializations = funtion() { }
-</script>
-
 <style>
-    label {
-        color: #fafafa !important;
+    .card .card-title {
+        color: #f57c00 !important;
     }
-    label.active {
-        color: #fafafa !important;
+    
+    .error {
+        margin: 0 0 15px 0;
+        font-size: small;
+        color: #D32F2F;
     }
-    /* label focus color */
-    .input-field input[type=text]:focus + label {
-        color: #fafafa !important;
-    }
-    .input-field input {
-        border-bottom: 1px #fafafa !important;
-        box-shadow: 0 1px 0 0 #fafafa !important;
-    }
-    /* label underline focus color */
-    .input-field input:focus {
-        border-bottom: 1px #fafafa !important;
-        box-shadow: 0 1px 0 0 #fafafa !important;
-    }
-    /* valid color */
-    .input-field input.valid {
-        border-bottom: 1px solid #fafafa !important;
-        box-shadow: 0 1px 0 0 #fafafa !important;
-    }
-    /* icon prefix focus color */
-    .input-field .prefix.active {
-        color: #fafafa !important;
+
+    .spacer_right {
+        margin-right: 20px;
+        float: left;
     }
 </style>
 
 <div class="section">
-    <h3 class="center-align condensed thin {{color2_text}}">Seja um doador. Cadastre-se!</h3>
-</div>
-
-<div class="section">
     <div class="row">
         <div class="col s6 offset-s3">
-            <div class="card {{color3}}">
-                <div class="card-content white-text">
-                    <form action="" method="post">
+            <h3 class="center-align condensed thin {{color2_text}}">Seja um doador. Cadastre-se!</h3>
+        </div>
+    </div>
+</div>
+
+
+<form id="doador-cadastro" action="" method="post">
+
+    <div class="section">
+        <div class="row">
+            <div class="col s6 offset-s3">
+
+                <div class="card">
+                    <div class="card-content">
+
                         {% csrf_token %}
+
                         <span class="card-title">Informações pessoais</span>
                         <div class="input-field col s12">
-                            <!--<i class="material-icons prefix">account_circle</i>-->
                             <input value="" id="first_name" type="text" class="validate">
                             <label for="first_name">Nome Completo</label>
                         </div>
                         <div class="input-field col s12">
-                            <!--<i class="material-icons prefix">email</i>-->
                             <input value="" id="email" type="text" class="validate">
                             <label for="email">E-mail</label>
                         </div>
                         <div class="input-field col s12">
-                            <!--<i class="material-icons prefix">my_location</i>-->
                             <input value="" id="location" type="text" class="validate">
                             <label for="location">Localização</label>
                         </div>
                         <div class="input-field col s12">
-                            <!--<i class="material-icons prefix">person_outline</i>-->
-                            <select>
-                                <option value="" disabled selected>Selecione</option>
-                                <option value="M">Masculino</option>
-                                <option value="F">Feminino</option>
-                            </select>
-                            <label>Sexo</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <!--<i class="material-icons prefix">person_outline</i>-->
                             <label for="birthdate" class="">Data de nascimento</label>
                             <input id="birthdate" type="text" class="datepicker picker__input" readonly="" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="birthdate_root">
                         </div>
+                        <div class="input-field col s12">
+                            <p style="color: #9e9e9e;">
+                                Sexo:
+                            </p>
+                            <p>
+                                <input class="with-gap" name="gender" type="radio" id="male" checked />
+                                <label for="male">Masculino</label>
+                            </p>
 
+                            <p>
+                                <input class="with-gap" name="gender" type="radio" id="female" />
+                                <label for="female">Feminino</label>
+                            </p>
+                        </div>
                         
-
-                        <!--
-                        tipo sanguineo
-                        ultima vez que doou
-                        -->
-
-                        <br /><br />
-                        <span class="card-title">Informações de doação</span>
-                        <div class="input-field col s12">
-                            <select>
-                                <option value="" disabled selected>Selecione</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                            </select>
-                            <label>Tipo sanguíneo</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <select>
-                                <option value="" disabled selected>Selecione</option>
-                                <option value="3+">Há mais de 3 meses</option>
-                                <option value="3-">Há menos de 3 meses</option>
-                                <option value="N">Não sei</option>
-                            </select>
-                            <label>Última doação</label>
+                        <div class="col s12">
+                            &nbsp;
                         </div>
 
-                        <div class="center-align">
-                            <button class="btn waves-effect orange waves-light" type="submit" name="action">Cadastrar</button>
+                        <div class="col s12">
+                            &nbsp;
                         </div>
+                    </div>
                 </div>
-                </form>
+
+                <br>
+
+                <div class="card">
+                    <div class="card-content">
+                        
+                        <span class="card-title">Informações de doação</span>
+
+                        <div class="input-field col s12">
+                            <span style="color: #9e9e9e;">Tipo sanguíneo:</span>
+                            <br />
+
+                            <div class="spacer_right">
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_ap" />
+                                <label for="bloodtype_ap">A+</label>
+                            </div>
+                                
+                            <div class="spacer_right">
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_am" />
+                                <label for="bloodtype_am">A-</label>
+                            </div>
+
+                            <div class="spacer_right">
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_bp" />
+                                <label for="bloodtype_bp">B+</label>
+                            </div>
+                            
+                            <div class="spacer_right">    
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_bm" />
+                                <label for="bloodtype_bm">B-</label>
+                            </div>
+
+                            <div class="spacer_right">
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_abp" />
+                                <label for="bloodtype_abp">AB+</label>
+                            </div>
+                                
+                            <div class="spacer_right">
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_abm" />
+                                <label for="bloodtype_abm">AB-</label>
+                            </div>
+
+                            <div class="spacer_right">
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_op" />
+                                <label for="bloodtype_op">O+</label>
+                            </div>
+                            
+                            <div class="spacer_right">    
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_om" />
+                                <label for="bloodtype_om">O-</label>
+                            </div>
+                        </div>
+
+                        <div class="input-field col s12">
+                            <br />
+                            <span style="color: #9e9e9e;">Última doação:</span>
+                            <br />
+                            
+                            <div class="spacer_right">
+                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_3p" />
+                                <label for="lastdonation_3p">Há mais de 3 meses</label>
+                            </div>
+                                
+                            <div class="spacer_right">
+                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_3m" />
+                                <label for="lastdonation_3m">Há menos de 3 meses</label>
+                            </div>
+
+                            <div class="spacer_right">
+                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_unknown" />
+                                <label for="lastdonation_unknown">Não sei</label>
+                            </div>
+                        </div>
+
+
+                        <div class="col s12">
+                            &nbsp;
+                        </div>
+
+                        <div class="col s12">
+                            &nbsp;
+                        </div>
+
+
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
-</div>
-</div>
+
+    <div class="section">
+        <div class="center-align">
+            <button class="btn waves-effect waves-light {{ color3 }}" type="submit" name="action">Cadastrar!</button>
+        </div>
+    </div>
+
+</form>
+
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -152,5 +210,6 @@
         format: 'dd/mm/yyyy',
     });
 </script>
+
 
 {% endblock %}
