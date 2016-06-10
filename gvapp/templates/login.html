@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% block content %}
+
+<script>
+    initializations = function() {
+        $("#login-form").submit(function(e){
+            e.preventDefault();
+            var data = $("#login-form").serializeArray();
+            $.ajaxSetup({
+                headers: { "X-CSRFToken": $.cookie("csrftoken") }
+            });
+            
+            if ($("#login-form").valid()){
+                $.ajax({
+                    type: "POST",
+                    url: "/organizador/login/",
+                    data: data, 
+                    success: function(data){
+                        console.log(data);
+//                         $("#content-block").fadeOut(function(){
+//                             $(this).html(data);
+//                             $(this).fadeIn();
+//                         });
+                    }
+                });
+            }
+        });
+        
+        $("#login-form").validate({
+            rules: {
+                uname: {
+                    required: true,
+                    minlength: 5
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                }
+            },
+            //For custom messages
+            messages: {
+                uname: {
+                    required: "Campo requerido!",
+                    minlength: "O tamanho mínimo pra esse campo é 5!"
+                },
+            },
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+    .error {
+        margin: 0 0 15px 0;
+        font-size: small;
+        color: #D32F2F;
+    }
+</style>
+
+<div class="section">
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <h3 class="center-align condensed thin {{color2_text}}">Entre com suas credenciais para o acessar a sua conta!</h3>
+        </div>
+    </div>
+</div>
+
+<form id="login-form" class="formValidate" action="" method="post">
+{% csrf_token %}
+
+    <div class="section">
+        <div class="row">
+            <div class="col s6 offset-s3">
+                <div class="card">
+                    <div class="card-content">
+
+                        <span class="center bold card-title {{color3_text}}">Informações de Login</span>
+                        <div class="input-field col s12">
+                            <input id="uname" name="uname" type="text" class="validate">
+                            <label for="uname">Nome de Usuário</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="password" name="password" type="password" class="validate">
+                            <label for="password">Senha</label>
+                        </div>
+
+                        <div class="col s12">
+                            &nbsp;
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="center-align">
+            <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action">Login
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}
