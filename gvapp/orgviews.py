@@ -1,10 +1,49 @@
 from django.template import loader, RequestContext
 from django.http import HttpResponse, JsonResponse
+from django.contrib.sessions.models import Session
 from django.views.decorators.csrf import csrf_protect
 from django.template.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 from models import Organizador
 
+def logout_organizador(request):
+    try:
+        del request.session["user_id"]
+        del request.session["user_type"]
+    except KeyError:
+        pass
+    
+    return HttpResponse("You're logged out")
+
+@csrf_protect
+def login_organizador(request):
+    if request.method == 'POST':
+        login = request.POST.get('uname')
+        senha = request.POST.get('password')
+        
+        try:
+            user = Organizador.objects.get(login=login, senha=senha)
+            request.session["user_id"] = login
+            request.session["user_type"] = "organizador"
+            
+            
+            
+            return HttpResponse("Yey! =D")
+        
+        except ObjectDoesNotExist:
+            return HttpResponse("awn... :(")
+        
+    if 'user_id' in request.session:
+        user_id = request.session['user_id']
+        return HttpResponse("Ja ta logado, " + user_id + "! =)")
+        
+    template = loader.get_template("login.html")
+    context = {
+        'page_title': 'Login de Organizador',
+    }
+    context.update(csrf(request))
+    
+    return HttpResponse(template.render(context))
 
 @csrf_protect
 def cadastro_organizador(request):
@@ -49,7 +88,6 @@ def cadastro_organizador(request):
     template = loader.get_template('cadastro_organizador.html')
     context = {
         'page_title': 'Cadastro Organizador',
-        'error_msg': 'Username already taken'
     }
     context.update(csrf(request))
 

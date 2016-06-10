@@ -2,35 +2,30 @@
 
 <script>
     initializations = function() {
-        $("#org-cadastro-1").submit(function(e){
+        $("#login-form").submit(function(e){
             e.preventDefault();
-            var data = $("#org-cadastro-1").serializeArray();
-            data.push({name: "step", value: "1"})
+            var data = $("#login-form").serializeArray();
             $.ajaxSetup({
                 headers: { "X-CSRFToken": $.cookie("csrftoken") }
             });
             
-            if ($("#org-cadastro-1").valid()){
+            if ($("#login-form").valid()){
                 $.ajax({
                     type: "POST",
-                    url: "/organizador/cadastro/",
-                    data: data, // serializes the form's elements.
+                    url: "/organizador/login/",
+                    data: data, 
                     success: function(data){
-                        if (data['error']) {
-                            Materialize.toast(data['error'], 2000);
-                        }
-                        else{
-                            $("#content-block").fadeOut(function(){
-                                $(this).html(data);
-                                $(this).fadeIn();
-                            });
-                        }
+                        console.log(data);
+//                         $("#content-block").fadeOut(function(){
+//                             $(this).html(data);
+//                             $(this).fadeIn();
+//                         });
                     }
                 });
             }
         });
         
-        $("#org-cadastro-1").validate({
+        $("#login-form").validate({
             rules: {
                 uname: {
                     required: true,
@@ -39,11 +34,6 @@
                 password: {
                     required: true,
                     minlength: 5
-                },
-                cpassword: {
-                    required: true,
-                    minlength: 5,
-                    equalTo: "#password"
                 }
             },
             //For custom messages
@@ -77,19 +67,19 @@
 <div class="section">
     <div class="row">
         <div class="col s6 offset-s3">
-            <h3 class="center-align condensed thin {{color2_text}}">Seja bem vindo à equipe!</h3>
+            <h3 class="center-align condensed thin {{color2_text}}">Entre com suas credenciais para o acessar a sua conta!</h3>
         </div>
     </div>
 </div>
 
-<form id="org-cadastro-1" class="formValidate" action="" method="post">
+<form id="login-form" class="formValidate" action="" method="post">
+{% csrf_token %}
 
     <div class="section">
         <div class="row">
             <div class="col s6 offset-s3">
                 <div class="card">
                     <div class="card-content">
-                        {% csrf_token %}
 
                         <span class="center bold card-title {{color3_text}}">Informações de Login</span>
                         <div class="input-field col s12">
@@ -100,10 +90,7 @@
                             <input id="password" name="password" type="password" class="validate">
                             <label for="password">Senha</label>
                         </div>
-                        <div class="input-field col s12">
-                            <input id="cpassword" name="cpassword" type="password" class="validate">
-                            <label for="cpassword">Confirme a Senha</label>
-                        </div>
+
                         <div class="col s12">
                             &nbsp;
                         </div>
@@ -116,7 +103,7 @@
     
     <div class="section">
         <div class="center-align">
-            <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action">Continuar!
+            <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action">Login
                 <i class="material-icons right">send</i>
             </button>
         </div>
