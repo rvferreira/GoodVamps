@@ -32,3 +32,19 @@ def campanha_details(request):
 	})
 
 	return HttpResponse(template.render(context))
+
+def cadastro_org(request):	
+	template = loader.get_template('cadastro_organizador.html')
+	context = RequestContext(request, {
+		'page_title': 'Cadastro',
+	})
+
+	return HttpResponse(template.render(context))
+
+def cadastro(request):	
+	template = loader.get_template('signup.html')
+	context = RequestContext(request, {
+		'page_title': 'Cadastro',
+	})
+
+	return HttpResponse(template.render(context))
