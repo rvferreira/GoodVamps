@@ -1,10 +1,84 @@
 {% extends "base.html" %} {% block content %}
 
+<script>
+    // Load the Facebook SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
-<!-- Caiol: Tive que incluir aqui de novo pro Select funcionar; não entendi pq :S -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
-<!---->
+    function fb_updateForm() {
+        FB.api('/me?fields=id,name,gender,birthday,location,email', function(response) {
+
+            // Facebook ID
+            $("#facebookId").val(response.id);
+
+            // Name
+            $("#name").val(response.name);
+            $("#name_label").toggleClass("active");
+
+            // Email
+            $("#email").val(response.email);
+            $("#email_label").toggleClass("active");
+
+            // Location
+            $("#location").val(response.location.name);
+            $("#location_label").toggleClass("active");
+
+            // Birthdate
+            $("#birthdate").val(response.birthday);
+            $("#birthdate_label").toggleClass("active");
+
+            // Gender
+            if(response.gender == "male") {
+                $("#male").attr('checked', true);
+            } else {
+                $("#female").attr('checked', true);
+            }
+
+        });
+
+    }
+
+    // Facebook login callback
+    function fb_statusChangeCallback(response) {
+        if(response.status === 'connected') {
+            fb_updateForm();
+
+        } else {
+            window.location.href = '/';
+            
+        }
+    }
+
+    // Check Facebook login status
+    function fb_checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            fb_statusChangeCallback(response);
+        });
+    }
+
+    initializations = function() {
+        window.fbAsyncInit = function() {
+            // Facebook initialization
+            FB.init({
+                appId      : '1003684733014635',
+                cookie     : true,  // enable cookies to allow the server to access the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.6' // use graph api version 2.5
+            });
+
+            // Facebook fetch information
+            fb_checkLoginState();
+        };
+
+    }
+
+    
+</script>
 
 <style>
     .card .card-title {
@@ -26,7 +100,7 @@
 <div class="section">
     <div class="row">
         <div class="col s6 offset-s3">
-            <h3 class="center-align condensed thin {{color2_text}}">Seja um doador. Cadastre-se!</h3>
+            <h3 class="center-align condensed thin {{color2_text}}">Seja um doador, termine seu cadastro!</h3>
         </div>
     </div>
 </div>
@@ -43,21 +117,23 @@
 
                         {% csrf_token %}
 
+                        <input value="" id="facebookId" type="text" disabled hidden />
+
                         <span class="card-title">Informações pessoais</span>
                         <div class="input-field col s12">
-                            <input value="" id="first_name" type="text" class="validate">
-                            <label for="first_name">Nome Completo</label>
+                            <input value="" id="name" type="text" class="validate">
+                            <label id="name_label" for="name">Nome Completo</label>
                         </div>
                         <div class="input-field col s12">
                             <input value="" id="email" type="text" class="validate">
-                            <label for="email">E-mail</label>
+                            <label id="email_label" for="email">E-mail</label>
                         </div>
                         <div class="input-field col s12">
                             <input value="" id="location" type="text" class="validate">
-                            <label for="location">Localização</label>
+                            <label id="location_label" for="location">Localização</label>
                         </div>
                         <div class="input-field col s12">
-                            <label for="birthdate" class="">Data de nascimento</label>
+                            <label id="birthdate_label" for="birthdate" class="">Data de nascimento</label>
                             <input id="birthdate" type="text" class="datepicker picker__input" readonly="" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="birthdate_root">
                         </div>
                         <div class="input-field col s12">
@@ -65,7 +141,7 @@
                                 Sexo:
                             </p>
                             <p>
-                                <input class="with-gap" name="gender" type="radio" id="male" checked />
+                                <input class="with-gap" name="gender" type="radio" id="male" />
                                 <label for="male">Masculino</label>
                             </p>
 
@@ -97,7 +173,7 @@
                             <br />
 
                             <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_ap" checked />
+                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_ap" />
                                 <label for="bloodtype_ap">A+</label>
                             </div>
                                 
@@ -143,7 +219,7 @@
                             <br />
                             
                             <div class="spacer_right">
-                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_3p" checked />
+                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_3p" />
                                 <label for="lastdonation_3p">Há mais de 3 meses</label>
                             </div>
                                 
@@ -185,9 +261,6 @@
 </form>
 
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('select').material_select();
-    });
     $('.datepicker').pickadate({
         selectMonths: true,
         selectYears: 200,
