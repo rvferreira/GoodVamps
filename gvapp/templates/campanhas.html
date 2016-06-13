@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <style>
   #map {
-    width: 500px;
+    width: 100%;
     height: 400px;
   }
 </style>
@@ -82,7 +82,7 @@
     &q=UNIMED,Sao+Carlos+SP" allowfullscreen>
 </iframe>-->
 
-    
+
     <!--<script>
        function initMap() {
         var myLatLng = {
@@ -124,7 +124,7 @@
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>-->
-     <div id="floating-panel">
+    <div id="floating-panel">
       <input id="address" type="textbox" value="ICMC São Carlos">
       <input id="submit" type="button" value="Buscar">
     </div>
@@ -132,7 +132,7 @@
     <script>
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
+          zoom: 12,
           center: {
             lat: -34.397,
             lng: 150.644
@@ -140,6 +140,42 @@
         });
         var geocoder = new google.maps.Geocoder();
 
+        var locations = [
+          {% for campanha in campanhas %} 
+            ["{{ campanha }}", "{{ campanha.localizacao }}"],
+          {% endfor %}
+        ];
+
+        // Centro
+        var ctrLat = 0;
+        var ctrLong = 0;
+        for (var i = 0; i < locations.length; i++) {
+          
+          var location = locations[i];
+          
+          (function(iter){            
+
+            geocoder.geocode({
+              'address': locations[iter][1]
+            }, function(results, status) {
+              if (status === google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location,
+                  animation: google.maps.Animation.DROP,
+
+                  label: locations[iter][0],
+                  title: locations[iter][0]
+                });
+              } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              }
+            });
+
+          })(i);
+        }
+        
         document.getElementById('submit').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
         });
