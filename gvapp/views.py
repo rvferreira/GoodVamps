@@ -2,6 +2,7 @@ from django.template import loader, RequestContext
 from django.http import HttpResponse
 from orgviews import cadastro_organizador, login_organizador, logout_organizador
 from datetime import datetime
+from doaviews import cadastro_doador
 
 from models import Campanha
 

@@ -1,12 +1,58 @@
 {% extends "base.html" %} {% block content %}
 
 <script>
+    // Load the Facebook SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    // Facebook login callback
+    function fb_statusChangeCallback(response) {
+        if(response.status === 'connected') {
+            window.location.href='/doador/cadastro';
+        }
+    }
+
+    // Check Facebook login status
+    function fb_checkLoginState() {
+        FB.getLoginStatus(function(response) {
+            fb_statusChangeCallback(response);
+        });
+    }
+
+    // Facebook Login
+    function fb_login() {
+        FB.login(function(response) {
+            if(response.authResponse) {
+                fb_checkLoginState();
+            }
+
+        }, {scope: 'public_profile,email,user_birthday,user_location'});
+    }
+
     initializations = function() {
+
+        // Facebook initialization
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '1003684733014635',
+                cookie     : true,  // enable cookies to allow the server to access the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.6' // use graph api version 2.5
+            });
+        };
+
+
         $("#signup-org").click(function(){
             window.location.href='/organizador/cadastro';
         });
+        
         $("#signup-ddr").click(function(){
-            window.location.href='/doador/cadastro';
+            fb_login();
         });
     }
 </script>
@@ -43,7 +89,8 @@
                 </div>
             </div>
         </div>
-  </div>
+    </div>
+
 </div>
 
 {% endblock %}
