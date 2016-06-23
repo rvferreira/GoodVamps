@@ -1,0 +1,113 @@
+{% extends "base.html" %} {% block content %}
+	
+<!-- Navbar goes here -->
+  <script>
+    initializations = function(){
+        
+        $('.campanha-in-list').click(function(e){
+            var campanha_cod = e.target.id.replace('campanha', '');
+            $.ajax({
+                url: "/campanhas/details/?cod="+campanha_cod,
+            }).done(function(data){
+                $('#campanha-detail').html(data);
+            });
+        });
+        
+        $("#filtro-campanhas").submit(function(e) {
+            var data = $("#filtro-campanhas").serializeArray();
+            $.ajax({
+                type: "GET",
+                url: "/organizador/",
+                data: data,
+            });
+        });
+
+        $(document).ready(function(){
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+          $('.modal-trigger').leanModal();
+        });
+    }
+</script>
+
+    <!-- Page Layout here -->
+    <div class="row" style="max-height:300px;">
+
+      <div class="col s3  z-depth-1" style="margin-bottom:-2%;">
+        	
+        <div class="section row" >
+				  
+          <div class="col s4 no-padding" style="border:1px solid white;">
+				    <img src="/static/img/no-image.gif" alt="" style="border:1px solid white;" class="circle responsive-img">
+				  </div>  
+				  
+          <div class="col s8 light" style='border:1px solid white;'>
+					  <h6 class="light"> {{ organizador.nome }} <br/> </h6>
+					  <h6 class="light"><small>E-mail: {{ organizador.email}} </br> 
+					  Telefone: {{ organizador.telefone}} <br />
+            Site: {{organizador.site}}</small></h6>
+					  <div class="center-align">
+						  <div id="signup-org" class="btn waves-effect {{ color3 }} waves-light"> Alterar Cadastro </div>
+	          </div>
+				  </div>		
+        	 
+        </div>
+
+        <div><h5 class="center-align light {{color3_text}}"> Minhas campanhas </h5>
+        	
+
+        <div class="collection" style="overflow:auto;height:300px;">
+          {% for campanha in campanhas %}
+            <a href="#modal1" action="updateCampanhaDetail('{{campanha.cod}}')" class="collection-item campanha-in-list modal-trigger" id="campanha{{ campanha.cod }}">
+              {{ campanha }} <br>
+              {{ campanha.localizacao }}
+            </a>
+          {% endfor %}
+        </div>
+
+      </div>
+      </div>
+      <div class="col s9">
+        <!-- Teal page content  -->
+      <div class="section no-pad-bot" id="campanhas-banner">
+    <div class="container">
+        <h3 class="header center {{ color3_text }}">
+            Buscador de campanhas
+        </h3>
+        <form id="filtro-campanhas" action="submit">
+            <div class="row center">
+                <div class="col s6">
+                    <div class="container">
+
+                            <div class="input-field">
+                                <input id="local" name="local" type="text" class="validate">
+                                <label class="active" for="local">Cidade</label>
+                            </div>
+                            <div class="input-field">
+                                <input id="data" name="data" type="date" class="datepicker">
+                                <label class="active" for="date">Data</label>
+                            </div>
+
+                    </div>
+
+                </div>
+                <div class="col s6">
+                    <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action" style="top:5em">Filtrar!
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+  
+      </div>
+
+    </div>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div id="campanha-detail" class="modal-content">
+    </div>  
+  </div>
+   
+{% endblock %}

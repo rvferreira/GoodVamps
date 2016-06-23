@@ -1,0 +1,63 @@
+<script>
+ initializations = function() {
+        $("#camp-cadastro").submit(function(e){
+            e.preventDefault();
+            var data = $("#org-cadastro").serializeArray();
+         
+            $.ajaxSetup({
+                headers: { "X-CSRFToken": $.cookie("csrftoken") }
+            });
+            
+            if ($("#org-cadastro").valid()){
+                $.ajax({
+                    type: "POST",
+                    url: "/organizador/cadastro_campanha/",
+                    data: data, // serializes the form's elements.
+                    success: function(data){
+                        if (data['error']) {
+                            Materialize.toast(data['error'], 2000);
+                        }
+                        else{
+                            $("#content-block").fadeOut(function(){
+                                $(this).html(data);
+                                $(this).fadeIn();
+                            });
+                        }
+                    }
+                });
+            }
+        });
+        
+        $("#camp-cadastro").validate({
+            rules: {
+                nome: {
+                    required: true,
+                    minlength: 10
+                },
+                localizacao: {
+                    required: true,
+                    minlength: 10
+                }
+            },
+            //For custom messages
+            messages: {
+                nome: {
+                    required: "Campo requerido!",
+                    minlength: "O tamanho mínimo pra esse campo é 10!"
+                },
+            },
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+    }
+</script>
+<div class="container">
+
+</div>
