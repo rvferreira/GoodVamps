@@ -1,89 +1,56 @@
 {% extends "base.html" %} {% block content %}
 
+<script type="text/javascript" src="/static/js/facebook.js"></script>
+
 <script>
-    // Load the Facebook SDK asynchronously
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    function fb_sendNotification(userId, message, url) {
-        var appAccessToken = "1003684733014635|miuNQ7RzuHruulnUczx5pcvHa2I";
-
-        FB.api("/"+userId+"/notifications", 'post', {access_token : appAccessToken, template : message, href : url}, function(data) {
-            console.log(data);
-        });
-    }
-
-    function fb_updateForm() {
-        FB.api('/me?fields=id,name,gender,birthday,location,email', function(response) {
-
-            //fb_sendNotification(response.id, "Teste 2!", "/testUrl");
-
-            // Facebook ID
-            $("#facebookId").val(response.id);
-
-            // Name
-            $("#name").val(response.name);
-            $("#name_label").toggleClass("active");
-
-            // Email
-            $("#email").val(response.email);
-            $("#email_label").toggleClass("active");
-
-            // Location
-            $("#location").val(response.location.name);
-            $("#location_label").toggleClass("active");
-
-            // Birthdate
-            $("#birthdate").val(response.birthday);
-            $("#birthdate_label").toggleClass("active");
-
-            // Gender
-            if(response.gender == "male") {
-                $("#male").attr('checked', true);
-            } else {
-                $("#female").attr('checked', true);
-            }
-
-        });
-
-    }
+    fb_loadSDK();
 
     // Facebook login callback
-    function fb_statusChangeCallback(response) {
+    function fbCallback(response) {
+        console.log(response.status);
         if(response.status === 'connected') {
-            fb_updateForm();
 
-        } else {
-            window.location.href = '/';
+            var data = $("#doador-cadastro-1").serializeArray();
+            data.push({name: "step", value: "1"})
+            //data.push({name: "fbUserId", value: response.id})
+            $.ajaxSetup({
+                headers: { "X-CSRFToken": $.cookie("csrftoken") }
+            });
             
-        }
-    }
+            $.ajax({
+                type: "POST",
+                url: "/doador/cadastro/",
+                data: data, // serializes the form's elements.
+                success: function(data){
+                    if (data['error']) {
+                        Materialize.toast(data['error'], 2000);
+                    } else {
+                        $("#content-block").fadeOut(function() {
+                            $(this).html(data);
+                            $(this).fadeIn();
+                        });
+                    }
+                }
+            });
 
-    // Check Facebook login status
-    function fb_checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            fb_statusChangeCallback(response);
-        });
+            // TODO: checar se está cadastrado, se estiver, ir para o perfil
+            //window.location.href = '/doador/perfil';
+        }
     }
 
     initializations = function() {
         window.fbAsyncInit = function() {
             // Facebook initialization
-            FB.init({
-                appId      : '1003684733014635',
-                cookie     : true,  // enable cookies to allow the server to access the session
-                xfbml      : true,  // parse social plugins on this page
-                version    : 'v2.6' // use graph api version 2.5
-            });
+            fb_init();
 
             // Facebook fetch information
-            fb_checkLoginState();
+            fb_checkLoginState(fbCallback);
         };
+
+        $("#doador-cadastro-1").submit(function(e) {
+            fb_login(fbCallback);
+            return false;
+        });
 
     }
 
@@ -108,15 +75,11 @@
 </style>
 
 <div class="section">
-    <div class="row">
-        <div class="col s6 offset-s3">
-            <h3 class="center-align condensed thin {{color2_text}}">Seja um doador, termine seu cadastro!</h3>
-        </div>
-    </div>
+    <h3 class="center-align condensed thin {{color2_text}}">Seja um doador!</h3>
 </div>
 
 
-<form id="doador-cadastro" action="" method="post">
+<form id="doador-cadastro-1" action="" method="post">
 
     <div class="section">
         <div class="row">
@@ -127,135 +90,14 @@
 
                         {% csrf_token %}
 
-                        <input value="" id="facebookId" type="text" disabled hidden />
+                        <center>
+                            <img class="responsive-img" src="/static/img/organizador_index.png"/><br />
 
-                        <span class="card-title">Informações pessoais</span>
-                        <div class="input-field col s12">
-                            <input value="" id="name" type="text" class="validate">
-                            <label id="name_label" for="name">Nome Completo</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input value="" id="email" type="text" class="validate">
-                            <label id="email_label" for="email">E-mail</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <input value="" id="location" type="text" class="validate">
-                            <label id="location_label" for="location">Localização</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <label id="birthdate_label" for="birthdate" class="">Data de nascimento</label>
-                            <input id="birthdate" type="text" class="datepicker picker__input" readonly="" tabindex="-1" aria-haspopup="true" aria-expanded="false" aria-readonly="false" aria-owns="birthdate_root">
-                        </div>
-                        <div class="input-field col s12">
-                            <p style="color: #9e9e9e;">
-                                Sexo:
-                            </p>
-                            <p>
-                                <input class="with-gap" name="gender" type="radio" id="male" />
-                                <label for="male">Masculino</label>
-                            </p>
-
-                            <p>
-                                <input class="with-gap" name="gender" type="radio" id="female" />
-                                <label for="female">Feminino</label>
-                            </p>
-                        </div>
-                        
-                        <div class="col s12">
-                            &nbsp;
-                        </div>
-
-                        <div class="col s12">
-                            &nbsp;
-                        </div>
-                    </div>
-                </div>
-
-                <br>
-
-                <div class="card">
-                    <div class="card-content">
-                        
-                        <span class="card-title">Informações de doação</span>
-
-                        <div class="input-field col s12">
-                            <span style="color: #9e9e9e;">Tipo sanguíneo:</span>
-                            <br />
-
-                            <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_ap" />
-                                <label for="bloodtype_ap">A+</label>
-                            </div>
-                                
-                            <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_am" />
-                                <label for="bloodtype_am">A-</label>
-                            </div>
-
-                            <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_bp" />
-                                <label for="bloodtype_bp">B+</label>
-                            </div>
-                            
-                            <div class="spacer_right">    
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_bm" />
-                                <label for="bloodtype_bm">B-</label>
-                            </div>
-
-                            <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_abp" />
-                                <label for="bloodtype_abp">AB+</label>
-                            </div>
-                                
-                            <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_abm" />
-                                <label for="bloodtype_abm">AB-</label>
-                            </div>
-
-                            <div class="spacer_right">
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_op" />
-                                <label for="bloodtype_op">O+</label>
-                            </div>
-                            
-                            <div class="spacer_right">    
-                                <input class="with-gap" name="bloodtype" type="radio" id="bloodtype_om" />
-                                <label for="bloodtype_om">O-</label>
-                            </div>
-                        </div>
-
-                        <div class="input-field col s12">
-                            <br />
-                            <span style="color: #9e9e9e;">Última doação:</span>
-                            <br />
-                            
-                            <div class="spacer_right">
-                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_3p" />
-                                <label for="lastdonation_3p">Há mais de 3 meses</label>
-                            </div>
-                                
-                            <div class="spacer_right">
-                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_3m" />
-                                <label for="lastdonation_3m">Há menos de 3 meses</label>
-                            </div>
-
-                            <div class="spacer_right">
-                                <input class="with-gap" name="lastdonation" type="radio" id="lastdonation_unknown" />
-                                <label for="lastdonation_unknown">Não sei</label>
-                            </div>
-                        </div>
-
-
-                        <div class="col s12">
-                            &nbsp;
-                        </div>
-
-                        <div class="col s12">
-                            &nbsp;
-                        </div>
-
+                            Para ser um doador, você precisar se cadastrar via Facebook.<br />
+                            Prometemos que não vamos te enviar notificações sem que seja necessário. :)
+                        </center>
 
                     </div>
-
                 </div>
 
             </div>
@@ -264,7 +106,7 @@
 
     <div class="section">
         <div class="center-align">
-            <button class="btn waves-effect waves-light {{ color3 }}" type="submit" name="action">Cadastrar!</button>
+            <button class="btn waves-effect waves-light {{ color3 }}" type="submit" name="action">Continuar com o Facebook</button>
         </div>
     </div>
 
