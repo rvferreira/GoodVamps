@@ -125,14 +125,14 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>-->
     <div id="floating-panel">
-      <input id="address" type="textbox" value="ICMC São Carlos">
+      <input id="address" type="textbox" value="Endereço">
       <input id="submit" type="button" value="Buscar">
     </div>
     <div id="map"></div>
     <script>
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
+          zoom: 10,
           center: {
             lat: -34.397,
             lng: 150.644
@@ -176,9 +176,22 @@
           })(i);
         }
         
+        
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(map.setCenter);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+        
+        
         document.getElementById('submit').addEventListener('click', function() {
           geocodeAddress(geocoder, map);
         });
+      }
+      
+      function makeCoord(position){
+        lt = position.coords.latitude;
+        lg = position.coords.longitude;
       }
 
       function geocodeAddress(geocoder, resultsMap) {
