@@ -4,7 +4,6 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
 from orgviews import cadastro_organizador, login_organizador, logout_organizador, profile_organizador
-from doaviews import *
 from datetime import datetime
 from models import Campanha, Organizador
 
@@ -85,14 +84,6 @@ def cadastro_campanha(request):
 	else:
 		return (login_organizador)	
 		        
-
-def cadastro_org(request):	
-	template = loader.get_template('cadastro_organizador.html')
-	context = RequestContext(request, {
-		'page_title': 'Cadastro',
-	})
-
-	return HttpResponse(template.render(context))
 
 def cadastro(request):	
 	template = loader.get_template('signup.html')

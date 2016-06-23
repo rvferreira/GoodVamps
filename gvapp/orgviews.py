@@ -8,9 +8,6 @@ from datetime import datetime
 from models import Organizador
 from models import Campanha
 
-def profile_organizador(request):
-    return HttpResponse("Deu bom!")
-
 def logout_organizador(request):
     try:
         del request.session["user_id"]
@@ -40,7 +37,7 @@ def login_organizador(request):
         
     if 'user_id' in request.session:
         user_id = request.session['user_id']
-        return profile_organizador(request);
+        return profile_organizador(request, user_id);
         
     template = loader.get_template("login.html")
     context = {
@@ -50,7 +47,6 @@ def login_organizador(request):
     
     return HttpResponse(template.render(context))
 
-@csrf_protect
 def cadastro_organizador(request):
 
     if request.method == 'POST':
@@ -98,18 +94,18 @@ def cadastro_organizador(request):
 
     return HttpResponse(template.render(context))
 
-def profile_organizador(request):  
-    user = 'rvferreira'
-    if user: 
-        template = loader.get_template('profile_organizador.html')
-        org_entry = Organizador.objects.get(login=user)
-        org_all_entrys = Campanha.objects.all().filter(organizador=user)
-        context = {
-            'page_title': 'Home',
-            'campanhas': org_all_entrys,
-            'organizador': org_entry,
-            'full_url': request.get_full_path,
-        }
-        return HttpResponse(template.render(context))
-    else:
+def profile_organizador(request, user=None):  
+    if not user:
         return login_organizador(request)  
+    
+    template = loader.get_template('profile_organizador.html')
+    org_entry = Organizador.objects.get(login=user)
+    org_all_entrys = Campanha.objects.all().filter(organizador=user)
+    context = {
+        'page_title': 'Home',
+        'campanhas': org_all_entrys,
+        'organizador': org_entry,
+        'full_url': request.get_full_path,
+    }
+    
+    return HttpResponse(template.render(context))

@@ -8,7 +8,6 @@ urlpatterns = [
     url(r'^organizador/login/$', views.login_organizador, name='Login'),
     url(r'^organizador/logout/$', views.logout_organizador, name='Logout'),
     url(r'^campanhas/details/$', views.campanha_details, name='campanha_details'),
-    url(r'^campanhas/', views.campanhas, name='campanhas'),
-    url(r'^organizador/', views.profile_organizador, name='profile_organizador'),
+    url(r'^organizador/$', views.profile_organizador, name='profile_organizador'),
     url(r'^$', views.index, name="index"),
 ]
