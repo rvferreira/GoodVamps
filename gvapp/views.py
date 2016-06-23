@@ -1,10 +1,12 @@
 from django.template import loader, RequestContext
-from django.http import HttpResponse
-from orgviews import cadastro_organizador, login_organizador, logout_organizador
+from django.http import HttpResponse, JsonResponse
+from django.template.context_processors import csrf
+from django.views.decorators.csrf import csrf_protect
+from django.core.exceptions import ObjectDoesNotExist
+from orgviews import cadastro_organizador, login_organizador, logout_organizador, profile_organizador
+from doaviews import *
 from datetime import datetime
-from doaviews import cadastro_doador
-
-from models import Campanha
+from models import Campanha, Organizador
 
 def index(request):
 	template = loader.get_template('index.html')
@@ -46,6 +48,44 @@ def campanha_details(request):
 
 	return HttpResponse(template.render(context))
 
+@csrf_protect
+def cadastro_campanha(request):
+	user = 'rvferreira'
+	if user: 
+
+		template = loader.get_template('cadastro_campanha.html')
+		context = {
+		    'page_title': 'Cadastro da Campanha',
+		}
+
+		if request.method == 'POST':
+			try:
+				nome = request.POST.get('nome')
+				localizacao = request.POST.get('localizacao')
+				Campanha.objects.get(nome=nome,localizacao=localizacao)
+				return JsonResponse({"error":"Campanha ja cadastrada"})	
+
+			except ObjectDoesNotExist:
+				nome = request.POST.get('nome')
+				localizacao = request.POST.get("localizacao")
+				tipo_prioritario = request.POST.get("tipo_prioritario")
+				data = request.POST.get("data")
+
+				inicio = datetime.strptime(data, "%d %B, %Y")
+				fim = datetime.strptime(data, "%d %B, %Y")
+
+				new_entry = Campanha(nome=nome,localizacao=localizacao,inicio=inicio,fim=fim,organizador=user,tipo_prioritario=tipo_prioritario)		
+				new_entry.save()
+            
+            	return HttpResponse("Concluido!")
+
+		context.update(csrf(request))
+		return HttpResponse(template.render(context))
+
+	else:
+		return (login_organizador)	
+		        
+
 def cadastro_org(request):	
 	template = loader.get_template('cadastro_organizador.html')
 	context = RequestContext(request, {
@@ -59,5 +99,6 @@ def cadastro(request):
 	context = RequestContext(request, {
 		'page_title': 'Cadastro',
 	})
-
+	
 	return HttpResponse(template.render(context))
+

@@ -44,3 +44,4 @@ class Campanha(models.Model):
 class DoadorCampanha(models.Model):
 	doador = models.ForeignKey('Doador', on_delete = models.CASCADE)
 	campanha = models.ForeignKey('Campanha', on_delete = models.CASCADE)
+
