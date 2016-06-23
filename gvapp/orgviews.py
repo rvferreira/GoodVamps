@@ -4,7 +4,9 @@ from django.contrib.sessions.models import Session
 from django.views.decorators.csrf import csrf_protect
 from django.template.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
+from datetime import datetime   
 from models import Organizador
+from models import Campanha
 
 def logout_organizador(request):
     try:
@@ -92,3 +94,19 @@ def cadastro_organizador(request):
     context.update(csrf(request))
 
     return HttpResponse(template.render(context))
+
+def profile_organizador(request):  
+    user = 'rvferreira'
+    if user: 
+        template = loader.get_template('profile_organizador.html')
+        org_entry = Organizador.objects.get(login=user)
+        org_all_entrys = Campanha.objects.all().filter(organizador=user)
+        context = {
+            'page_title': 'Home',
+            'campanhas': org_all_entrys,
+            'organizador': org_entry,
+            'full_url': request.get_full_path,
+        }
+        return HttpResponse(template.render(context))
+    else:
+        return login_organizador(request)  
