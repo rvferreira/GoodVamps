@@ -6,6 +6,9 @@ from django.template.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 from models import Organizador
 
+def profile_organizador(request):
+    return HttpResponse("Deu bom!")
+
 def logout_organizador(request):
     try:
         del request.session["user_id"]
@@ -28,14 +31,14 @@ def login_organizador(request):
             
             
             
-            return HttpResponse("Yey! =D")
+            return HttpResponse("Sucesso! Voce sera redirecionado para a sua pagina de perfil.")
         
         except ObjectDoesNotExist:
-            return HttpResponse("awn... :(")
+            return HttpResponse("Erro: Credenciais Invalidas!")
         
     if 'user_id' in request.session:
         user_id = request.session['user_id']
-        return HttpResponse("Ja ta logado, " + user_id + "! =)")
+        return profile_organizador(request);
         
     template = loader.get_template("login.html")
     context = {

@@ -6,8 +6,6 @@ from datetime import datetime
 from models import Campanha
 
 def index(request):
-	if request.session:
-		print request.session["user"]
 	template = loader.get_template('index.html')
 	context = RequestContext(request, {
 		'page_title': 'Home',
