@@ -15,11 +15,9 @@
                     url: "/organizador/login/",
                     data: data, 
                     success: function(data){
-                        console.log(data);
-//                         $("#content-block").fadeOut(function(){
-//                             $(this).html(data);
-//                             $(this).fadeIn();
-//                         });
+                        status = data;
+                        alert(data);
+                        location.reload(true);
                     }
                 });
             }
