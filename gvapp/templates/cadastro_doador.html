@@ -26,12 +26,11 @@
     }
 
     initializations = function() {
+        fb_loadSDK();
+
         window.fbAsyncInit = function() {
             // Facebook initialization
             fb_init();
-
-            // Facebook fetch information
-            fb_checkLoginState(fbCallback);
         };
 
         $("#doador-cadastro-1").submit(function(e) {
