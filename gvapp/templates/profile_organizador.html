@@ -42,17 +42,14 @@
           if ($("#cadastro-camp").valid()){
               $.ajax({
                   type: "POST",
-                  url: "/organizador/cadastro_campanha",
+                  url: "/organizador/cadastro_campanha/",
                   data: data, // serializes the form's elements.
                   success: function(data){
                       if (data['error']) {
                           Materialize.toast(data['error'], 2000);
                       }
                       else{
-                          $("#content-block").fadeOut(function(){
-                              $(this).html(data);
-                              $(this).fadeIn();
-                          });
+                          window.location.reload(true);
                       }
                   }
               });

@@ -4,7 +4,7 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
-from orgviews import cadastro_organizador, login_organizador, logout_organizador, profile_organizador
+from orgviews import cadastro_organizador, login_organizador, profile_organizador
 from doaviews import cadastro_doador_1, cadastro_doador_2, login_doador, profile_doador
 from models import Campanha, Organizador
 
