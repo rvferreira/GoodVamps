@@ -4,6 +4,7 @@
 <script>
     initializations = function() {
         fb_loadSDK();
+
         $("#login-form").submit(function(e){
             e.preventDefault();
             var data = $("#login-form").serializeArray();
@@ -54,7 +55,7 @@
             }
         });
         
-        function fb_statusChangeCallback(response) {
+        function fbCallback(response) {
             if(response.status === 'connected') {
                 FB.api('/me?fields=id,name', function(response) {
                     console.log("success! " + response.id)   
@@ -62,29 +63,15 @@
 
             }
         }
-
-        // Check Facebook login status
-        function fb_checkLoginState() {
-            FB.getLoginStatus(function(response) {
-                fb_statusChangeCallback(response);
-            });
-        }
         
         window.fbAsyncInit = function() {
-            // Facebook initialization
-            FB.init({
-                appId      : '1003684733014635',
-                cookie     : true,  // enable cookies to allow the server to access the session
-                xfbml      : true,  // parse social plugins on this page
-                version    : 'v2.6' // use graph api version 2.5
-            });
-
-            // Facebook fetch information
-            fb_checkLoginState();
+            // Facebook init
+            fb_init();
         }
         
-        $("#doador-login").click(function(){
-            fb_login(fbCallback);
+        $("#fb-login").click(function(){
+            // Check login state
+            fb_checkLoginState(fbCallback);
             return false;
         })
         
