@@ -1,0 +1,97 @@
+ {% extends "base.html" %} {% block content %}
+
+ <script>
+  initializations = function(){
+    $('.campanha-in-list').click(function(e){
+            var campanha_cod = e.target.id.replace('campanha', '');
+            $.ajax({
+                url: "/campanhas/details/?cod="+campanha_cod,
+            }).done(function(data){
+                $('#campanha-detail').html(data);
+            });
+        });
+        
+        $("#filtro-campanhas").submit(function(e) {
+            var data = $("#filtro-campanhas").serializeArray();
+            $.ajax({
+                type: "GET",
+                url: "/doador/",
+                data: data,
+            });
+        });
+
+        $(document).ready(function(){
+        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+          $('.modal-trigger').leanModal();
+        });
+
+        $(".cancelar-participacao").click(function(e){
+          div = $(".campanha-id");
+          var doador = e.target.id.replace('doador', '');
+          var campanha = div.attr('id').replace('campanha','');
+          $.ajax({
+                url: "/doador/cancela_participacao/?idcampanha="+campanha+"&namedoador="+doador,
+            }).done(function(data){
+                window.location.reload(true);
+            });
+        });
+  }
+ </script>
+ <!-- Page Layout here -->
+    <div class="row" style="max-height:300px;">
+
+      <div class="col s3  z-depth-1" style="margin-bottom:-2%;">
+        	
+        <div class="section row" >
+				  
+          <div class="col s4 no-padding" style="border:1px solid white;">
+				    <img src="http://www.laranjasnews.com/wp-content/uploads/2013/06/facebook-no-image1.gif" alt="" style="border:1px solid white;" class="circle responsive-img">
+				  </div>  
+				  
+          <div class="col s8 light" style='border:1px solid white;'>
+					  <h6 class="light"> {{doador.nome}} <br/> </h6>
+					  <h6 class="light"><small>{{doador.facebook}}</br> 
+					  Tipo Sanguíneo: {{doador.tipo_sanguineo}} <br />
+            Última doação: {{doador.ultima_doacao}}</small></h6>
+					  <div class="center-align">
+						  <div id="signup-org" class="btn waves-effect {{ color3 }} waves-light"> Alterar Cadastro </div>
+	          </div>
+				  </div>		
+        	 
+        </div>
+
+        <div>
+          <h5 class="center-align light {{color3_text}}"> 
+            Minhas campanhas
+          </h5>
+        	
+
+        <div class="collection" style="overflow:auto;height:300px;">
+          {% for campanha in campanhas %}
+            <a href="#modal1" action="" class="collection-item campanha-in-list modal-trigger" id="campanha{{ campanha.cod }}">
+              {{ campanha }} <br>
+              {{ campanha.localizacao }}
+            </a>
+            {% endfor %}
+        </div>
+
+      </div>
+    </div> 
+      <div id="cadastro-campanha" class="col s8 cadastro-campanha" class="border:1px solid red;">
+        <div class="container variable-content">
+           
+        </div>    
+      </div>
+    
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div id="campanha-detail" class="modal-content">
+    </div>
+    <div class="modal-footer">
+      <a href="#!" id="doador{{ doador.nome }}" class="cancelar-participacao modal-action modal-close waves-effect waves-red btn-flat">Cancelar Participação</a>
+    </div>  
+  </div>
+
+   
+{% endblock %}

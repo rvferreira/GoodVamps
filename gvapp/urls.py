@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^organizador/login/$', views.login_organizador, name='Login'),
     url(r'^organizador/logout/$', views.logout, name='Logout'),
     url(r'^organizador/cadastro_campanha/$', views.cadastro_campanha, name='cadastro_campanha'),
+    url(r'^organizador/cancela_campanha/$', views.cancela_campanha, name='cancela_campanha'),
     url(r'^organizador/$', views.profile_organizador, name='profile_organizador'),
 	url(r'^doador/cadastro/1$', views.cadastro_doador_1, name = 'Cadastro Doador'),
 	url(r'^doador/cadastro/2$', views.cadastro_doador_2, name = 'Cadastro Doador'),
