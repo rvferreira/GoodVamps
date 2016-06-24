@@ -90,6 +90,16 @@
                 }
             }
         });
+
+        $(".cancelar-campanha").click(function(e){
+           div = $(".campanha-id");
+           var campanha = div.attr('id').replace('campanha','');
+           $.ajax({
+                url: "/organizador/cancela_campanha/?idcampanha="+campanha,
+            }).done(function(data){
+                window.location.reload(true);
+            });
+        });
     }
 </script>
 
@@ -143,6 +153,9 @@
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div id="campanha-detail" class="modal-content">
+    </div>  
+    <div class="modal-footer">
+      <a href="#!" class="cancelar-campanha modal-action modal-close waves-effect waves-red btn-flat">Cancelar Campanha</a>
     </div>  
   </div>
 

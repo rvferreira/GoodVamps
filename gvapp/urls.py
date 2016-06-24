@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^doador/cancela_participacao', views.cancel_part_camp, name='cancela_participacao'),
     url(r'^doador/', views.profile_doador, name='profile_doador'),
     url(r'^organizador/cadastro_campanha', views.cadastro_campanha, name='cadastro_campanha'),
+    url(r'^organizador/cancela_campanha', views.cancela_campanha, name='cancela_campanha'),
     url(r'^organizador/', views.profile_organizador, name='profile_organizador'),
     url(r'^$', views.index, name="index"),
 ]
