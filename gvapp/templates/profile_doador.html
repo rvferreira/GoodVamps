@@ -27,7 +27,7 @@
 
         $(".cancelar-participacao").click(function(e){
           div = $(".campanha-id");
-          var doador = e.target.id.replace('doador', '');
+          var doador = '{{ request.session.user_id }}';
           var campanha = div.attr('id').replace('campanha','');
           $.ajax({
                 url: "/doador/cancela_participacao/?idcampanha="+campanha+"&namedoador="+doador,

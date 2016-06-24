@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from orgviews import cadastro_organizador, login_organizador, profile_organizador
 from doaviews import cadastro_doador_1, cadastro_doador_2, login_doador, profile_doador
-from models import Campanha, Organizador
+from models import Campanha, Organizador, Doador, DoadorCampanha
 
 def index(request):
 	template = loader.get_template('index.html')
@@ -39,11 +39,21 @@ def campanhas(request):
 	return HttpResponse(template.render(context))
 
 def campanha_details(request):
-	entry = Campanha.objects.get(cod=request.GET.get('cod'))
+	campanha = Campanha.objects.get(cod=request.GET.get('cod'))
+	
+	participando = 0
+	
+	try:
+		doador = Doador.objects.get(fb_user_id=request.session.get('user_id', ''))
+		entry = DoadorCampanha.objects.get(doador=doador, campanha=campanha)
+		participando = 1
+	except ObjectDoesNotExist:
+		pass
 	
 	template = loader.get_template('campanha_detail.html')
 	context = RequestContext(request, {
-		'campanha': entry,
+		'campanha': campanha,
+		'participando': participando
 	})
 
 	return HttpResponse(template.render(context))
@@ -107,15 +117,21 @@ def cancel_part_camp(request):
 		return (login_organizador)	
 
 def part_camp(request):
-	idcampanha = request.GET.get('idcampanha')
-	nome = request.GET.get('namedoador')
+	idcampanha = request.POST.get('id_campanha', '')
+	nome = request.POST.get('id_doador', '')
 	campanha = Campanha.objects.get(cod=idcampanha)
-	campanha = Campanha.objects.get(nome=nome)
-	if doador:
-		doacao = DoadorCampanha.objects.create(doador=doador,campanha=campanha)
-		return HttpResponse('sucess')
-	else:
-		return (login_organizador)	
+	doador = Doador.objects.get(fb_user_id=nome)
+	
+	try:
+		entry = DoadorCampanha.objects.get(doador=doador, campanha=campanha)
+	except ObjectDoesNotExist:
+		if doador:
+			doacao = DoadorCampanha.objects.create(doador=doador,campanha=campanha)
+			return HttpResponse('success')
+		else:
+			return (login_organizador)	
+	
+	return HttpResponse('replicated')
 
 def cadastro_org(request):	
 	template = loader.get_template('cadastro_organizador.html')

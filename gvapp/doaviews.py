@@ -23,6 +23,8 @@ def profile_doador(request, user=None):
 		'doador': doa_entry,
 		'campanhas': doa_all_entrys
 	}
+	
+	return HttpResponse(template.render(context))
 
 @csrf_protect
 def login_doador(request):

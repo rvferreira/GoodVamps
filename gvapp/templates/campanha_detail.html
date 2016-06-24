@@ -1,3 +1,27 @@
+<script>
+    $("#part-camp").on('click', function(){
+        if ('{{ campanha.cod }}' && '{{ request.session.user_id }}' && '{{ request.session.user_type }}'=='doador'){
+            data = {
+                'id_campanha': '{{ campanha.cod }}',
+                'id_doador':'{{ request.session.user_id }}'
+            };
+        }
+        $.ajaxSetup({
+            headers: {
+                "X-CSRFToken": $.cookie("csrftoken")
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/doador/part_camp/",
+            data: data, // serializes the form's elements.
+            success: function(data) {
+                window.location.reload(true);
+            }
+        }); 
+    });
+</script>
+
 <div class="container">
     <h5 class="header center blue-text">
         {{campanha}}        
@@ -20,5 +44,12 @@
         <span class="orange-text text-darken-2">Contato:  </span>{{ campanha.organizador.telefone }} <br>
         <span class="orange-text text-darken-2">Página:  </span>{{ campanha.organizador.site  }} <br>  
     </p>
+    {% if request.session.user_id and request.session.user_type == "doador" %}
+        {% if participando == 0 %}
+    <p class="center-align">
+        <button id="part-camp" class="btn waves-effect waves-light {{ color3 }}">Participar da Campanha</button>
+    </p>
+        {% endif %}
+    {% endif %}
     <div class="campanha-id" id="campanha{{ campanha.cod }}"></div> 
 </div>

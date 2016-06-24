@@ -15,6 +15,7 @@ urlpatterns = [
 	url(r'^doador/cadastro/2$', views.cadastro_doador_2, name = 'Cadastro Doador'),
 	url(r'^doador/login/$', views.login_doador, name='Logout'),
     url(r'^doador/logout/$', views.logout, name='Logout'),
+	url(r'^doador/part_camp/$', views.part_camp, name='participa_campanha'),
     url(r'^doador/cancela_participacao/$', views.cancel_part_camp, name='cancela_participacao'),
     url(r'^doador/$', views.profile_doador, name='profile_doador'),
     url(r'^$', views.index, name="index"),
