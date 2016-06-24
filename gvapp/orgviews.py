@@ -95,10 +95,12 @@ def profile_organizador(request, user=None):
     template = loader.get_template('profile_organizador.html')
     org_entry = Organizador.objects.get(login=user)
     org_all_entrys = Campanha.objects.all().filter(organizador=user)
+    opcoes_sangue = Campanha.opcoes_sangue
     context = {
         'page_title': 'Home',
         'campanhas': org_all_entrys,
         'organizador': org_entry,
+        'opcoes_sangue': opcoes_sangue,
         'full_url': request.get_full_path,
     }
     

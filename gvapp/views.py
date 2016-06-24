@@ -4,10 +4,9 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
-from orgviews import cadastro_organizador, login_organizador, profile_organizador
-from doaviews import cadastro_doador_1, cadastro_doador_2, login_doador
+from orgviews import cadastro_organizador, login_organizador, logout_organizador, profile_organizador
+from doaviews import cadastro_doador_1, cadastro_doador_2, login_doador, profile_doador
 from models import Campanha, Organizador
-
 
 def index(request):
 	template = loader.get_template('index.html')
@@ -51,41 +50,51 @@ def campanha_details(request):
 
 @csrf_protect
 def cadastro_campanha(request):
+	organizador = Organizador.objects.get(login='rvferreira')
 	user = 'rvferreira'
+	opcoes_sangue = (('O-', 'O-'), ('O+', 'O+'), ('A-', 'A-'), ('A+', 'A+'), ('B-', 'B-'), ('B+', 'B+'), ('AB-', 'AB-'), ('AB+', 'AB+'))
 	if user: 
+		try:
+			nome = request.POST.get('nome')
+			localizacao = request.POST.get('localizacao')
+			Campanha.objects.get(nome=nome,localizacao=localizacao)
+			return JsonResponse({"error":"Campanha ja cadastrada"})	
 
-		template = loader.get_template('cadastro_campanha.html')
-		context = {
-		    'page_title': 'Cadastro da Campanha',
-		}
+		except ObjectDoesNotExist:
+			nome = request.POST.get('nome')
+			localizacao = request.POST.get("localizacao")
+			tipo_prioritario = request.POST.get("grupo_sanguineo")
+			data = request.POST.get("data")
+			print tipo_prioritario
 
-		if request.method == 'POST':
-			try:
-				nome = request.POST.get('nome')
-				localizacao = request.POST.get('localizacao')
-				Campanha.objects.get(nome=nome,localizacao=localizacao)
-				return JsonResponse({"error":"Campanha ja cadastrada"})	
+			inicio = datetime.strptime(data, "%d %B, %Y")
+			fim = datetime.strptime(data, "%d %B, %Y")
 
-			except ObjectDoesNotExist:
-				nome = request.POST.get('nome')
-				localizacao = request.POST.get("localizacao")
-				tipo_prioritario = request.POST.get("tipo_prioritario")
-				data = request.POST.get("data")
-
-				inicio = datetime.strptime(data, "%d %B, %Y")
-				fim = datetime.strptime(data, "%d %B, %Y")
-
-				new_entry = Campanha(nome=nome,localizacao=localizacao,inicio=inicio,fim=fim,organizador=user,tipo_prioritario=tipo_prioritario)		
-				new_entry.save()
-            
-            	return HttpResponse("Concluido!")
-
-		context.update(csrf(request))
-		return HttpResponse(template.render(context))
-
+			new_entry = Campanha(nome=nome,localizacao=localizacao,inicio=inicio,fim=fim,organizador=organizador,tipo_prioritario=tipo_prioritario)		
+			new_entry.save()
+			return HttpResponse('success')
 	else:
 		return (login_organizador)	
 		        
+def cancel_part_camp(request):
+	idcampanha = request.GET.get('idcampanha')
+	nome = request.GET.get('namedoador')
+	campanha = Campanha.objects.get(cod=idcampanha)
+	doador = Doador.objects.get(nome=nome)
+	if doador:
+		doacao = DoadorCampanha.objects.get(doador=doador,campanha=campanha)
+		doacao.delete()
+		return HttpResponse('success')
+	else:
+		return (login_organizador)	
+
+def cadastro_org(request):	
+	template = loader.get_template('cadastro_organizador.html')
+	context = RequestContext(request, {
+		'page_title': 'Cadastro',
+	})
+
+	return HttpResponse(template.render(context))
 
 def cadastro(request):	
 	template = loader.get_template('signup.html')

@@ -4,7 +4,25 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
-from models import Doador
+from models import Doador, Campanha
+from views import login_organizador
+
+def profile_doador(request):	
+	if not user:
+        user = request.session.get("user_id", '')
+    
+    if not user:
+        return login_organizador(request) 
+	
+	doa_entry = Doador.objects.get(fb_user_id=user)
+	doa_all_entrys = Campanha.objects.all().filter(doadores=doa_entry)
+	if nome:
+		template = loader.get_template('profile_doador.html')
+		context = {
+			'page_title': 'Home',
+			'doador': doa_entry,
+			'campanhas': doa_all_entrys
+		}
 
 @csrf_protect
 def login_doador(request):
