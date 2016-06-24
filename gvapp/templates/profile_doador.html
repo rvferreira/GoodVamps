@@ -1,4 +1,10 @@
  {% extends "base.html" %} {% block content %}
+<style>
+  #map {
+    width: 80%;
+    height: 400px;
+  }
+</style>
 
  <script>
   initializations = function(){
@@ -27,7 +33,7 @@
 
         $(".cancelar-participacao").click(function(e){
           div = $(".campanha-id");
-          var doador = '{{ request.session.user_id }}';
+          var doador = '{{doador.nome}}';
           var campanha = div.attr('id').replace('campanha','');
           $.ajax({
                 url: "/doador/cancela_participacao/?idcampanha="+campanha+"&namedoador="+doador,
@@ -79,7 +85,64 @@
     </div> 
       <div id="cadastro-campanha" class="col s8 cadastro-campanha" class="border:1px solid red;">
         <div class="container variable-content">
-           
+<!--             -->
+			<div class="row">
+				<div class="col s12">
+					&nbsp;
+				</div>
+				<div class="col s12">
+					&nbsp;
+				</div>
+			</div>
+<div id="map"></div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: {
+            lat: -34.397,
+            lng: 150.644
+          }
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        var locations = [
+          {% for campanha in campanhas %} 
+            ["{{ campanha }}", "{{ campanha.localizacao }}"],
+          {% endfor %}
+        ];
+
+        for (var i = 0; i < locations.length; i++) {
+          
+          var location = locations[i];
+          
+          (function(iter){            
+
+            geocoder.geocode({
+              'address': locations[iter][1]
+            }, function(results, status) {
+              if (status === google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location,
+                  animation: google.maps.Animation.DROP,
+
+                  label: locations[iter][0],
+                  title: locations[iter][0]
+                });
+              } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+              }
+            });
+
+          })(i);
+        }
+      }
+        
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtKYQkSJAr0itPXC1d7P0Mcn1DRXoqBhs&signed_in=true&callback=initMap" async defer></script>
+<!-- 			 -->
         </div>    
       </div>
     

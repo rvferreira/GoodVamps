@@ -27,10 +27,14 @@
 	                </div> 
 	            <div class="col s12">
 	             	<label for="tipo_sangue"> Tipo de sangue prioritário: </label>
+					<div class="row">
 	            	{%for item in opcoes_sangue %}
-			        	<input name="grupo_sanguineo" type="radio" id="{{item.0}}" value="{{item.0}}" />
-			        	<label for="{{item.0}}">{{item.0}}</label>
+						<div class="col s3">
+							<input name="grupo_sanguineo" type="radio" id="{{item.0}}" class="with-gap" value="{{item.0}}" />
+							<label for="{{item.0}}">{{item.0}}</label>
+						</div>
 			        {% endfor %}	 
+					</div>
 				</div> 
 	     
 				</div>

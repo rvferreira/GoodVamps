@@ -21,7 +21,7 @@ def profile_doador(request, user=None):
 	context = {
 		'page_title': 'Home',
 		'doador': doa_entry,
-		'campanhas': doa_all_entrys
+		'campanhas': doa_all_entrys,
 	}
 	
 	return HttpResponse(template.render(context))

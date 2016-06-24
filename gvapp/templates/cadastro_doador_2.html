@@ -100,6 +100,7 @@
                         else{
                             alert("Cadastro concluido com sucesso! Redirecionando para seu perfil logo mais.")
                             window.location.href = "/doador"
+                            fb_sendNotification($("#facebookId").val(), "Seja bem vindo a plataforma doa.la! =)", "coupleofprogrammers.com");
                         }
                     }
                 });
