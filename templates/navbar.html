@@ -12,12 +12,12 @@
                     <li><a href="/who">Quem pode doar?</a></li>
                     <li><a href="/team">Quem somos?</a></li>
                     {% if request.session.user_id or organizador or doador %}
-                        {% if organizador or request.session.user_type =='organizador' %}
-                    <li><a href="/organizador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
+                        {% if organizador or request.session.user_type == "organizador" %}
                     <li><a href="/organizador/logout">Logout</a></li>
+                    <li><a href="/organizador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
                         {% else %}
-                    <li><a href="/doador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
                     <li><a href="/doador/logout">Logout</a></li>
+                    <li><a href="/doador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
                         {% endif %}
                     {% else %}
                     <li><a href="/organizador/login">Login</a></li>
@@ -34,12 +34,12 @@
                     <li><a href="/who">Quem pode doar?</a></li>
                     <li><a href="/team">Quem Somos?</a></li>
                     {% if request.session.user_id or organizador or doador %}
-                        {% if organizador or request.session.user_type =='organizador' %}
-                    <li><a href="/organizador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
+                        {% if organizador or request.session.user_type == "organizador" %}
                     <li><a href="/organizador/logout">Logout</a></li>
+                    <li><a href="/organizador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
                         {% else %}
-                    <li><a href="/doador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
                     <li><a href="/doador/logout">Logout</a></li>
+                    <li><a href="/doador/"><i class="tiny material-icons right">perm_identity</i>Perfil</a></li>
                         {% endif %}
                     {% else %}
                     <li><a href="/organizador/login">Login</a></li>
