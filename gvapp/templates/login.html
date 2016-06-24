@@ -1,7 +1,9 @@
 {% extends "base.html" %} {% block content %}
 
+<script type="text/javascript" src="/static/js/facebook.js"></script>
 <script>
     initializations = function() {
+        fb_loadSDK();
         $("#login-form").submit(function(e){
             e.preventDefault();
             var data = $("#login-form").serializeArray();
@@ -51,6 +53,41 @@
                 }
             }
         });
+        
+        function fb_statusChangeCallback(response) {
+            if(response.status === 'connected') {
+                FB.api('/me?fields=id,name', function(response) {
+                    console.log("success! " + response.id)   
+                });
+
+            }
+        }
+
+        // Check Facebook login status
+        function fb_checkLoginState() {
+            FB.getLoginStatus(function(response) {
+                fb_statusChangeCallback(response);
+            });
+        }
+        
+        window.fbAsyncInit = function() {
+            // Facebook initialization
+            FB.init({
+                appId      : '1003684733014635',
+                cookie     : true,  // enable cookies to allow the server to access the session
+                xfbml      : true,  // parse social plugins on this page
+                version    : 'v2.6' // use graph api version 2.5
+            });
+
+            // Facebook fetch information
+            fb_checkLoginState();
+        }
+        
+        $("#doador-login").click(function(){
+            fb_login(fbCallback);
+            return false;
+        })
+        
     }
 </script>
 
@@ -70,6 +107,27 @@
     </div>
 </div>
 
+<div class="section">
+    <div class="row">
+        <div class="col s6 offset-s3">
+            <div class="card">
+                <div class="card-content">
+
+                    <span id="doador-login" class="center bold card-title {{color3_text}}">Login de Doador</span>
+                    <div class="center-align">
+                        <button id="fb-login" class="btn waves-effect waves-light {{ color3 }}" type="submit" name="action">Login com facebook<i class="material-icons right">send</i></button>
+                    </div>
+
+                    <div class="col s12">
+                        &nbsp;
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <form id="login-form" class="formValidate" action="" method="post">
 {% csrf_token %}
 
@@ -79,7 +137,7 @@
                 <div class="card">
                     <div class="card-content">
 
-                        <span class="center bold card-title {{color3_text}}">Informações de Login</span>
+                        <span class="center bold card-title {{color3_text}}">Login de Organizador</span>
                         <div class="input-field col s12">
                             <input id="uname" name="uname" type="text" class="validate">
                             <label for="uname">Nome de Usuário</label>
@@ -94,18 +152,24 @@
                         </div>
                         
                     </div>
+                    
+                    <div class="center-align">
+                        <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action">Login<i class="material-icons right">send</i>
+                        </button>
+                    </div> 
+                    
+                    <div class="col s12">
+                        &nbsp;
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
     
-    <div class="section">
-        <div class="center-align">
-            <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action">Login
-                <i class="material-icons right">send</i>
-            </button>
-        </div>
-    </div>
+    
+        
+    
 
 </form>
 
