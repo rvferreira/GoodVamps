@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from orgviews import cadastro_organizador, login_organizador, profile_organizador
 from datetime import datetime
 from models import Campanha, Organizador
+from doaviews import cadastro_doador_1, cadastro_doador_2
 
 def index(request):
 	template = loader.get_template('index.html')
