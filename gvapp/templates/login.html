@@ -58,10 +58,31 @@
         function fbCallback(response) {
             if(response.status === 'connected') {
                 FB.api('/me?fields=id,name', function(response) {
-                    console.log("success! " + response.id)   
+                    if (response.status != 'success'){
+                        fb_login();
+                    }
+                    
+                    var data = new Array();
+                    data.push({
+                        name: "facebookId",
+                        value: response.id
+                    });
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRFToken": $.cookie("csrftoken")
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "/doador/login/",
+                        data: data, // serializes the form's elements.
+                        success: function(data) {
+                            window.location.href = '/doador';
+                        }
+                    });
                 });
-
             }
+            else return false;
         }
         
         window.fbAsyncInit = function() {
@@ -71,7 +92,9 @@
         
         $("#fb-login").click(function(){
             // Check login state
-            fb_checkLoginState(fbCallback);
+            if (fb_checkLoginState(fbCallback)){
+                fb_login(fbCallback);
+            }
             return false;
         })
         

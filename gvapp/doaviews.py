@@ -6,6 +6,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from models import Doador
 
+@csrf_protect
+def login_doador(request):
+    fbUserId = request.POST.get('facebookId')
+    
+    request.session["user_id"] = fbUserId
+    request.session["user_type"] = "doador"
+    
+    return JsonResponse({"status":"success"})
 
 @csrf_protect
 def cadastro_doador_2(request):
