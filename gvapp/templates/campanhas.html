@@ -74,60 +74,7 @@
 
 <div class="section">
   <div class="container">
-    <!-- <iframe
-  width="600"
-  height="450"
-  frameborder="0" style="border:0"
-  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC4Q1cyFiS9oKbbpYtanx5NTa--rsvN-Uw
-    &q=UNIMED,Sao+Carlos+SP" allowfullscreen>
-</iframe>-->
 
-
-    <!--<script>
-       function initMap() {
-        var myLatLng = {
-          lat: -25.363,
-          lng: 131.044
-        };
-        var myOtherLatLng = {
-          lat: -25.363,
-          lng: 132.044
-        }
-        var mapDiv = document.getElementById('map');
-        var map = new google.maps.Map(mapDiv, {
-          center: myLatLng,
-          zoom: 8
-        });
-        setMarkers(map);
-      }
-      
-      var locations = [
-        ["Hello1", -25.363, 131.044],
-        ["Hello2", -25.363, 132.044]
-      ];
-
-      
-      function setMarkers(map) {
-        for (var i = 0; i < locations.length; i++) {
-          var location = locations[i];
-          var marker = new google.maps.Marker({
-            position: {
-              lat: location[1],
-              lng: location[2]
-            },
-            map: map,
-            animation: google.maps.Animation.DROP,
-            title: location[0],
-          });
-          marker.setMap
-        }
-      }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>-->
-    <div id="floating-panel">
-      <input id="address" type="textbox" value="Endereço">
-      <input id="submit" type="button" value="Buscar">
-    </div>
     <div id="map"></div>
     <script>
       function initMap() {
@@ -146,9 +93,6 @@
           {% endfor %}
         ];
 
-        // Centro
-        var ctrLat = 0;
-        var ctrLong = 0;
         for (var i = 0; i < locations.length; i++) {
           
           var location = locations[i];
@@ -175,42 +119,8 @@
 
           })(i);
         }
-        
-        
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(map.setCenter);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-        
-        
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeAddress(geocoder, map);
-        });
       }
-      
-      function makeCoord(position){
-        lt = position.coords.latitude;
-        lg = position.coords.longitude;
-      }
-
-      function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({
-          'address': address
-        }, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location,
-              animation: google.maps.Animation.DROP
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
+        
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtKYQkSJAr0itPXC1d7P0Mcn1DRXoqBhs&signed_in=true&callback=initMap" async defer></script>
 
