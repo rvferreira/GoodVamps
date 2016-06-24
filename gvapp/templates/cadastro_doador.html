@@ -8,34 +8,22 @@
 
     // Facebook login callback
     function fbCallback(response) {
-        console.log(response.status);
+        
         if(response.status === 'connected') {
-
-            var data = $("#doador-cadastro-1").serializeArray();
-            data.push({name: "step", value: "1"})
-            //data.push({name: "fbUserId", value: response.id})
+            
             $.ajaxSetup({
                 headers: { "X-CSRFToken": $.cookie("csrftoken") }
             });
             
-            $.ajax({
-                type: "POST",
-                url: "/doador/cadastro/",
-                data: data, // serializes the form's elements.
-                success: function(data){
-                    if (data['error']) {
-                        Materialize.toast(data['error'], 2000);
-                    } else {
-                        $("#content-block").fadeOut(function() {
-                            $(this).html(data);
-                            $(this).fadeIn();
-                        });
-                    }
-                }
+            $.get( "/doador/cadastro/2", function( data ) {
+                $("#content-block").fadeOut(function(){
+                    $(this).html(data);
+                    $(this).fadeIn(function(){
+                        bindings(response);
+                    });
+                });
             });
 
-            // TODO: checar se está cadastrado, se estiver, ir para o perfil
-            //window.location.href = '/doador/perfil';
         }
     }
 
