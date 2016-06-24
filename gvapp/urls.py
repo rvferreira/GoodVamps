@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^campanhas/details/$', views.campanha_details, name='campanha_details'),
     url(r'^campanhas/', views.campanhas, name='campanhas'),
     url(r'^doador/', views.home_doador, name='home_doador'),
+    url(r'^organizador/cadastro_campanha', views.cadastro_campanha, name='cadastro_campanha'),
     url(r'^organizador/', views.profile_organizador, name='profile_organizador'),
     url(r'^$', views.index, name="index"),
 ]

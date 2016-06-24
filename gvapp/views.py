@@ -51,38 +51,29 @@ def campanha_details(request):
 
 @csrf_protect
 def cadastro_campanha(request):
+	organizador = Organizador.objects.get(login='rvferreira')
 	user = 'rvferreira'
+	opcoes_sangue = (('O-', 'O-'), ('O+', 'O+'), ('A-', 'A-'), ('A+', 'A+'), ('B-', 'B-'), ('B+', 'B+'), ('AB-', 'AB-'), ('AB+', 'AB+'))
 	if user: 
+		try:
+			nome = request.POST.get('nome')
+			localizacao = request.POST.get('localizacao')
+			Campanha.objects.get(nome=nome,localizacao=localizacao)
+			return JsonResponse({"error":"Campanha ja cadastrada"})	
 
-		template = loader.get_template('cadastro_campanha.html')
-		context = {
-		    'page_title': 'Cadastro da Campanha',
-		}
+		except ObjectDoesNotExist:
+			nome = request.POST.get('nome')
+			localizacao = request.POST.get("localizacao")
+			tipo_prioritario = request.POST.get("grupo_sanguineo")
+			data = request.POST.get("data")
+			print tipo_prioritario
 
-		if request.method == 'POST':
-			try:
-				nome = request.POST.get('nome')
-				localizacao = request.POST.get('localizacao')
-				Campanha.objects.get(nome=nome,localizacao=localizacao)
-				return JsonResponse({"error":"Campanha ja cadastrada"})	
+			inicio = datetime.strptime(data, "%d %B, %Y")
+			fim = datetime.strptime(data, "%d %B, %Y")
 
-			except ObjectDoesNotExist:
-				nome = request.POST.get('nome')
-				localizacao = request.POST.get("localizacao")
-				tipo_prioritario = request.POST.get("tipo_prioritario")
-				data = request.POST.get("data")
-
-				inicio = datetime.strptime(data, "%d %B, %Y")
-				fim = datetime.strptime(data, "%d %B, %Y")
-
-				new_entry = Campanha(nome=nome,localizacao=localizacao,inicio=inicio,fim=fim,organizador=user,tipo_prioritario=tipo_prioritario)		
-				new_entry.save()
-            
-            	return HttpResponse("Concluido!")
-
-		context.update(csrf(request))
-		return HttpResponse(template.render(context))
-
+			new_entry = Campanha(nome=nome,localizacao=localizacao,inicio=inicio,fim=fim,organizador=organizador,tipo_prioritario=tipo_prioritario)		
+			new_entry.save()
+			return HttpResponse('success')
 	else:
 		return (login_organizador)	
 		        

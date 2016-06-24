@@ -3,7 +3,12 @@
 <!-- Navbar goes here -->
   <script>
     initializations = function(){
-        
+        $('.datepicker').pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+
+
         $('.campanha-in-list').click(function(e){
             var campanha_cod = e.target.id.replace('campanha', '');
             $.ajax({
@@ -25,6 +30,66 @@
         $(document).ready(function(){
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
           $('.modal-trigger').leanModal();
+        });
+
+       $("#cadastro-camp").submit(function(e){
+          e.preventDefault();
+          var data = $("#cadastro-camp").serializeArray();
+        
+          $.ajaxSetup({
+              headers: { "X-CSRFToken": $.cookie("csrftoken") }
+          });
+          if ($("#cadastro-camp").valid()){
+              $.ajax({
+                  type: "POST",
+                  url: "/organizador/cadastro_campanha",
+                  data: data, // serializes the form's elements.
+                  success: function(data){
+                      if (data['error']) {
+                          Materialize.toast(data['error'], 2000);
+                      }
+                      else{
+                          $("#content-block").fadeOut(function(){
+                              $(this).html(data);
+                              $(this).fadeIn();
+                          });
+                      }
+                  }
+              });
+          }
+      });
+
+      $("#cadastro-camp").validate({
+            rules: {
+                nome: {
+                    required: true,
+                    minlength: 5
+                },
+                localizacao: {
+                    required: true
+                }
+              
+            },
+            //For custom messages
+            messages: {
+                nome: {
+                    required: "Campo requerido!",
+                    minlength: "O tamanho mínimo pra esse campo é 8!"
+                },
+                localizacao: {
+                    required: "Campo requerido!",
+                    minlength: "O tamanho mínimo pra esse campo é 8!"
+                }
+            },
+            errorElement: 'div',
+            errorPlacement: function(error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
         });
     }
 </script>
@@ -52,12 +117,15 @@
         	 
         </div>
 
-        <div><h5 class="center-align light {{color3_text}}"> Minhas campanhas </h5>
+        <div>
+          <h5 class="center-align light {{color3_text}}"> 
+            Minhas campanhas
+          </h5>
         	
 
         <div class="collection" style="overflow:auto;height:300px;">
           {% for campanha in campanhas %}
-            <a href="#modal1" action="updateCampanhaDetail('{{campanha.cod}}')" class="collection-item campanha-in-list modal-trigger" id="campanha{{ campanha.cod }}">
+            <a href="#modal1" action="" class="collection-item campanha-in-list modal-trigger" id="campanha{{ campanha.cod }}">
               {{ campanha }} <br>
               {{ campanha.localizacao }}
             </a>
@@ -65,49 +133,19 @@
         </div>
 
       </div>
+    </div> 
+      <div id="cadastro-campanha" class="col s8 cadastro-campanha" class="border:1px solid red;">
+        <div class="container">
+            {% include 'cadastro_campanha.html'  %}
+        </div>    
       </div>
-      <div class="col s9">
-        <!-- Teal page content  -->
-      <div class="section no-pad-bot" id="campanhas-banner">
-    <div class="container">
-        <h3 class="header center {{ color3_text }}">
-            Buscador de campanhas
-        </h3>
-        <form id="filtro-campanhas" action="submit">
-            <div class="row center">
-                <div class="col s6">
-                    <div class="container">
-
-                            <div class="input-field">
-                                <input id="local" name="local" type="text" class="validate">
-                                <label class="active" for="local">Cidade</label>
-                            </div>
-                            <div class="input-field">
-                                <input id="data" name="data" type="date" class="datepicker">
-                                <label class="active" for="date">Data</label>
-                            </div>
-
-                    </div>
-
-                </div>
-                <div class="col s6">
-                    <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action" style="top:5em">Filtrar!
-                        <i class="material-icons right">send</i>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-  
-      </div>
-
-    </div>
+    
 
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div id="campanha-detail" class="modal-content">
     </div>  
   </div>
+
    
 {% endblock %}

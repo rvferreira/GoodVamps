@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime   
 from models import Organizador
 from models import Campanha
+from views import *
 
 def logout_organizador(request):
     try:
@@ -101,12 +102,15 @@ def profile_organizador(request):
         template = loader.get_template('profile_organizador.html')
         org_entry = Organizador.objects.get(login=user)
         org_all_entrys = Campanha.objects.all().filter(organizador=user)
+        opcoes_sangue = Campanha.opcoes_sangue
         context = {
             'page_title': 'Home',
             'campanhas': org_all_entrys,
             'organizador': org_entry,
+            'opcoes_sangue': opcoes_sangue,
             'full_url': request.get_full_path,
         }
+        
         return HttpResponse(template.render(context))
     else:
         return login_organizador(request)  
