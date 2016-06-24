@@ -4,10 +4,11 @@ from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
 from orgviews import cadastro_organizador, login_organizador, logout_organizador, profile_organizador
-from doaviews import *
+from doaviews import profile_doador
 from datetime import datetime
 from models import Organizador
 from models import Campanha
+from models import Doador,DoadorCampanha
 
 def index(request):
 	template = loader.get_template('index.html')
@@ -77,6 +78,18 @@ def cadastro_campanha(request):
 	else:
 		return (login_organizador)	
 		        
+
+def cancel_part_camp(request):
+	idcampanha = request.GET.get('idcampanha')
+	nome = request.GET.get('namedoador')
+	campanha = Campanha.objects.get(cod=idcampanha)
+	doador = Doador.objects.get(nome=nome)
+	if doador:
+		doacao = DoadorCampanha.objects.get(doador=doador,campanha=campanha)
+		doacao.delete()
+		return HttpResponse('success')
+	else:
+		return (login_organizador)	
 
 def cadastro_org(request):	
 	template = loader.get_template('cadastro_organizador.html')
