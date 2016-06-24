@@ -11,8 +11,9 @@
                     <li><a href="/campanhas">Campanhas</a></li>
                     <li><a href="/who">Quem pode doar?</a></li>
                     <li><a href="/team">Quem somos?</a></li>
-                    {% if request.session.user_id %}
-                    <li><a href="/organizador/login">Perfil</a></li>
+                    {% if request.session.user_id or organizador %}
+                    <li><a href="/organizador/">Perfil</a></li>
+                    <li><a href="/organizador/logout">Logout</a></li>
                     {% else %}
                     <li><a href="/organizador/login">Login</a></li>
                     
@@ -28,7 +29,8 @@
                     <li><a href="/who">Quem pode doar?</a></li>
                     <li><a href="/team">Quem Somos?</a></li>
                     {% if request.session.user_id %}
-                    <li><a href="/organizador/login">Perfil</a></li>
+                    <li><a href="/organizador/">Perfil</a></li>
+                    <li><a href="/organizador/logout">Logout</a></li>
                     {% else %}
                     <li><a href="/organizador/login">Login</a></li>
                     <div class="btn orange darken-1">

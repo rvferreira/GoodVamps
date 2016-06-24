@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 from django.core.exceptions import ObjectDoesNotExist
-from orgviews import cadastro_organizador, login_organizador, logout_organizador, profile_organizador
+from orgviews import cadastro_organizador, login_organizador, profile_organizador
 from datetime import datetime
 from models import Campanha, Organizador
 
@@ -87,9 +87,18 @@ def cadastro_campanha(request):
 
 def cadastro(request):	
 	template = loader.get_template('signup.html')
-	context = RequestContext(request, {
+	context = {
 		'page_title': 'Cadastro',
-	})
+	}
 	
 	return HttpResponse(template.render(context))
+
+def logout(request):
+    try:
+        del request.session["user_id"]
+        del request.session["user_type"]
+    except KeyError:
+        pass
+    
+    return index(request)
 

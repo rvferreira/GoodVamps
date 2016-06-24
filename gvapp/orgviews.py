@@ -5,17 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.template.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime   
-from models import Organizador
-from models import Campanha
-
-def logout_organizador(request):
-    try:
-        del request.session["user_id"]
-        del request.session["user_type"]
-    except KeyError:
-        pass
-    
-    return HttpResponse("You're logged out")
+from models import Organizador, Campanha
 
 @csrf_protect
 def login_organizador(request):
@@ -47,6 +37,7 @@ def login_organizador(request):
     
     return HttpResponse(template.render(context))
 
+@csrf_protect
 def cadastro_organizador(request):
 
     if request.method == 'POST':
@@ -96,7 +87,10 @@ def cadastro_organizador(request):
 
 def profile_organizador(request, user=None):  
     if not user:
-        return login_organizador(request)  
+        user = request.session.get("user_id", '')
+    
+    if not user:
+        return login_organizador(request) 
     
     template = loader.get_template('profile_organizador.html')
     org_entry = Organizador.objects.get(login=user)
