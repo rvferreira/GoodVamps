@@ -46,13 +46,13 @@
 					  Telefone: {{ organizador.telefone}} <br />
             Site: {{organizador.site}}</small></h6>
 					  <div class="center-align">
-						  <div id="signup-org" class="btn waves-effect {{ color3 }} waves-light"> Alterar Cadastro </div>
+						  <div id="signup-org" class="btn waves-effect {{button_color}} waves-light"> Alterar Cadastro </div>
 	          </div>
 				  </div>		
         	 
         </div>
 
-        <div><h5 class="center-align light {{color3_text}}"> Minhas campanhas </h5>
+        <div><h5 class="center-align light {{color_titulo}}"> Minhas campanhas </h5>
         	
 
         <div class="collection" style="overflow:auto;height:300px;">
@@ -70,7 +70,7 @@
         <!-- Teal page content  -->
       <div class="section no-pad-bot" id="campanhas-banner">
     <div class="container">
-        <h3 class="header center {{ color3_text }}">
+        <h3 class="header center {{color_titulo}}">
             Buscador de campanhas
         </h3>
         <form id="filtro-campanhas" action="submit">
@@ -91,7 +91,7 @@
 
                 </div>
                 <div class="col s6">
-                    <button class="btn waves-effect {{ color3 }} waves-light" type="submit" name="action" style="top:5em">Filtrar!
+                    <button class="btn waves-effect {{button_color}} waves-light" type="submit" name="action" style="top:5em">Filtrar!
                         <i class="material-icons right">send</i>
                     </button>
                 </div>

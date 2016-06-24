@@ -83,7 +83,7 @@
 <div class="section">
     <div class="row">
         <div class="col s6 offset-s3">
-            <h3 class="center-align condensed thin {{color2_text}}">Só faltam mais alguns detalhes para concluírmos o seu cadastro!</h3>
+            <h3 class="center {{color_titulo}} header">Só faltam mais alguns detalhes para concluírmos o seu cadastro!</h3>
         </div>
     </div>
 </div>
@@ -99,7 +99,7 @@
 
                         {% csrf_token %}
 
-                        <span class="center card-title">Informações do responsável</span>
+                        <span class="center {{color_titulo}} card-title">Informações do responsável</span>
                         <div class="input-field col s12">
                             <input id="responsavel" name="responsavel" type="text" class="validate">
                             <label for="responsavel">Nome Completo</label>
@@ -120,7 +120,7 @@
                 <br><br>
                 <div class="card">
                     <div class="card-content">
-                        <span class="center card-title {{color3_text}}">Informações da organização</span>
+                        <span class="center card-title {{color_titulo}}">Informações da organização</span>
                         <div class="input-field col s12">
                             <input id="organizacao" name="organizacao" type="text" class="validate">
                             <label for="organizacao">Nome da Organização</label>
@@ -149,7 +149,7 @@
 
     <div class="section">
         <div class="center-align">
-            <button class="btn waves-effect waves-light {{ color3 }}" type="submit" name="action">Cadastrar!</button>
+            <button class="btn waves-effect waves-light {{button_color}}" type="submit" name="action">Cadastrar!</button>
         </div>
     </div>
 

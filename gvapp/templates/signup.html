@@ -1,14 +1,14 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="section">
-    <h3 class="center-align condensed thin {{color2_text}}">Junte-se a nós!</h3>
+    <h3 class="center {{color_titulo}} header">Junte-se a nós!</h3>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col s6">
             <div class="section">
-                <h4 class="center-align condensed thin {{color2_text}}">Seja um doador</h4>
+                <h4 class="center {{color_titulo}} header">Seja um doador</h4>
             </div>
             <div class="container">
                 <div class="{text_color2}" align="justify">
@@ -19,7 +19,7 @@
         </div>
         <div class="col s6">
             <div class="section">
-                <h4 class="center-align condensed thin {{color2_text}}">Seja um organizador</h4>
+                <h4 class="center {{color_titulo}} header">Seja um organizador</h4>
             </div>
             <div class="container">
                 <div class="{text_color2}" align="justify">
@@ -32,12 +32,12 @@
     <div class="row">
         <div class="col s6">
             <div class="center-align" >
-                <a href="/doador/cadastro"><button class="btn waves-effect waves-light">Cadastrar!</button></a>
+                <a href="/doador/cadastro"><button class="btn {{button_color}}">Cadastrar!</button></a>
             </div>
         </div>
         <div class="col s6">
             <div class="center-align">
-                <a href="/organizador/cadastro"><button class="btn waves-effect waves-light">Cadastrar!</button></a>
+                <a href="/organizador/cadastro"><button class="btn {{button_color}}">Cadastrar!</button></a>
             </div>
         </div>
     </div>
